@@ -29,10 +29,9 @@ namespace BudgetTracker
     {
         private ObservableCollection<NavLink> _navLinks = new ObservableCollection<NavLink>()
         {
-            new NavLink() { Label = "People", Symbol = Symbol.People  },
-            new NavLink() { Label = "Globe", Symbol = Symbol.Globe },
-            new NavLink() { Label = "Message", Symbol = Symbol.Message },
-            new NavLink() { Label = "Mail", Symbol = Symbol.Mail },
+            new NavLink() { Label = "Finances", Symbol = Symbol.List },
+            new NavLink() { Label = "Goals", Symbol = Symbol.SolidStar },
+            new NavLink() { Label = "Statistics", Symbol = Symbol.FourBars },
         };
 
         public ObservableCollection<NavLink> NavLinks
