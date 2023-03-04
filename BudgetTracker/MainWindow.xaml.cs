@@ -27,11 +27,12 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class MainWindow : Window
     {
-        private ObservableCollection<NavLink> _navLinks = new ObservableCollection<NavLink>()
+        private ObservableCollection<NavLink> _navLinks = new()
         {
-            new NavLink() { Label = "Finances", Symbol = Symbol.List },
-            new NavLink() { Label = "Goals", Symbol = Symbol.SolidStar },
-            new NavLink() { Label = "Statistics", Symbol = Symbol.FourBars },
+            new() { Label = "Finances", Symbol = Symbol.List },
+            new() { Label = "Goals", Symbol = Symbol.SolidStar },
+            new() { Label = "Statistics", Symbol = Symbol.FourBars },
+            new() { Label = "Settings", Symbol = Symbol.Setting } // Might not keep settings option
         };
 
         public ObservableCollection<NavLink> NavLinks
@@ -39,12 +40,15 @@ namespace BudgetTracker
             get { return _navLinks; }
         }
 
+        private void NavLinksList_ItemClick(object sender, ItemClickEventArgs e)
+        {
+
+        }
+
         public MainWindow()
         {
             this.InitializeComponent();
         }
-
-        
     }
 
     public class NavLink
