@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "BudgetTracker (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "BudgetTracker (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
