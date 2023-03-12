@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <SplitView IsPaneOpen="True" OpenPaneLength="250" DisplayMode="Inline">
+    <SplitView IsPaneOpen="True" OpenPaneLength="250" DisplayMode="Inline" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
@@ -37,8 +37,9 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="SPLITVIEW CONTENT" HorizontalAlignment="Center" Margin="0,20" />
-            <TextBlock x:Name="pageContent" Grid.Row="1" HorizontalAlignment="Center" Margin="20"/>
+            <TextBlock x:Name="pageHeader" Text="SPLITVIEW CONTENT" HorizontalAlignment="Center" Margin="0,20" />
+            <ScrollViewer x:Name="pageContent" Grid.Row="1" ZoomMode="Disabled" VerticalScrollMode="Enabled" VerticalScrollBarVisibility="Auto" 
+                          BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderThickness="0,4,0,0"/>
         </Grid>
     </SplitView>
 </Window>

@@ -42,12 +42,16 @@ namespace BudgetTracker
 
         private void NavLinksList_ItemClick(object sender, ItemClickEventArgs e)
         {
-            pageContent.Text = (e.ClickedItem as NavLink).Label;
+            pageHeader.Text = (e.ClickedItem as NavLink).Label.ToUpper();
+            pageContent.Content = (e.ClickedItem as NavLink).Label + " Page";
         }
 
         public MainWindow()
         {
             this.InitializeComponent();
+            NavLinksList.SelectedItem = NavLinks[0];
+            pageHeader.Text = NavLinks[0].Label.ToUpper();
+            pageContent.Content = NavLinks[0].Label + " Page";
         }
     }
 
