@@ -30,5 +30,16 @@ namespace BudgetTracker
         {
             this.InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            double income = double.Parse(income1.Text) + double.Parse(income2.Text);
+            double expenses = double.Parse(housing.Text) + double.Parse(utilities.Text) + double.Parse(food.Text) + 
+                double.Parse(other1.Text) + double.Parse(other2.Text) + double.Parse(other3.Text);
+
+            totalIncome.Text = "$" + income;
+            totalExpenses.Text = "$" + expenses;
+            remaining.Text = "$" + (income - expenses);
+        }
     }
 }

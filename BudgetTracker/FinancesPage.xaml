@@ -10,15 +10,64 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <!-- Do not need this row at the moment -->
-        </Grid.RowDefinitions>
-        <NumberBox x:Name="income" Header="Income" />
-        <NumberBox x:Name="rent" Header="Mortgage / Rent" Grid.Row="1" />
-        <NumberBox x:Name="utilities" Header="Utilities" Grid.Row="2" />
-    </Grid>
+    <StackPanel Orientation="Vertical">
+        <!-- Income Section -->
+        <TextBlock Text="Income" HorizontalAlignment="Center"/>
+        <Grid Margin="10" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+            </Grid.ColumnDefinitions>
+            <NumberBox x:Name="income1" Header="Income 1:" Text="0.00"/>
+            <NumberBox x:Name="income2" Grid.Row="1" Header="Income 2:" Text="0.00"/>
+        </Grid>
+        <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
+        <!-- Expenses Section -->
+        <TextBlock Text="Expenses" HorizontalAlignment="Center"/>
+        <Grid Margin="10" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="500"/>
+            </Grid.ColumnDefinitions>
+            <NumberBox x:Name="housing" Header="Housing:" Text="0.00"/>
+            <NumberBox x:Name="utilities" Header="Utilities:" Grid.Row="1" Text="0.00"/>
+            <NumberBox x:Name="food" Header="Food:" Grid.Row="2" Text="0.00"/>
+            <NumberBox x:Name="other1" Header="Other 1:" Grid.Row="3" Text="0.00"/>
+            <NumberBox x:Name="other2" Header="Other 2:" Grid.Row="4" Text="0.00"/>
+            <NumberBox x:Name="other3" Header="Other 3:" Grid.Row="5" Text="0.00"/>
+        </Grid>
+        <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
+        <Button Content="Submit" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderThickness="2" HorizontalAlignment="Center" Click="Button_Click"/>
+        <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Total Income: "/>
+            <TextBlock x:Name="totalIncome" Text="$0.00" Grid.Column="1"/>
+            <TextBlock Text="Total Expenses: " Grid.Row="1"/>
+            <TextBlock x:Name="totalExpenses" Text="$0.00" Grid.Row="1" Grid.Column="1"/>
+            <TextBlock Text="Remaining Funds: " Grid.Row="2"/>
+            <TextBlock x:Name="remaining" Text="$0.00" Grid.Row="2" Grid.Column="1"/>
+        </Grid>
+    </StackPanel>
 </Page>
