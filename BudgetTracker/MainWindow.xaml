@@ -20,7 +20,7 @@
                 </Grid.RowDefinitions>
                 <TextBlock Text="NAVIGATION" HorizontalAlignment="Center" Margin="0,20"/>
                 <ListView x:Name="NavLinksList" ItemsSource="{x:Bind NavLinks}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
-                          ItemClick="NavLinksList_ItemClick">
+                          IsItemClickEnabled="True" ItemClick="NavLinksList_ItemClick">
                     <ListView.ItemTemplate>
                         <DataTemplate x:Name="NavLinkItemTemplate" x:DataType="local:NavLink">
                             <StackPanel Orientation="Horizontal" Margin="2,0,0,0" AutomationProperties.Name="{x:Bind Label}">
@@ -38,7 +38,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
             <TextBlock Text="SPLITVIEW CONTENT" HorizontalAlignment="Center" Margin="0,20" />
-            
+            <TextBlock x:Name="pageContent" Grid.Row="1" HorizontalAlignment="Center" Margin="20"/>
         </Grid>
     </SplitView>
 </Window>

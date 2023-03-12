@@ -42,7 +42,7 @@ namespace BudgetTracker
 
         private void NavLinksList_ItemClick(object sender, ItemClickEventArgs e)
         {
-
+            pageContent.Text = (e.ClickedItem as NavLink).Label;
         }
 
         public MainWindow()
