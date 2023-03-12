@@ -29,10 +29,10 @@ namespace BudgetTracker
     {
         private ObservableCollection<NavLink> _navLinks = new()
         {
-            new() { Label = "Finances", Symbol = Symbol.List },
-            new() { Label = "Goals", Symbol = Symbol.SolidStar },
-            new() { Label = "Statistics", Symbol = Symbol.FourBars },
-            new() { Label = "Settings", Symbol = Symbol.Setting } // Might not keep settings option
+            new() { Label = "Finances", Symbol = Symbol.List, Page = new FinancesPage() },
+            new() { Label = "Goals", Symbol = Symbol.SolidStar, Page = new GoalsPage() },
+            new() { Label = "Statistics", Symbol = Symbol.FourBars, Page = new StatisticsPage() },
+            new() { Label = "Settings", Symbol = Symbol.Setting, Page = new SettingsPage() } // Might not keep settings option
         };
 
         public ObservableCollection<NavLink> NavLinks
@@ -43,7 +43,7 @@ namespace BudgetTracker
         private void NavLinksList_ItemClick(object sender, ItemClickEventArgs e)
         {
             pageHeader.Text = (e.ClickedItem as NavLink).Label.ToUpper();
-            pageContent.Content = (e.ClickedItem as NavLink).Label + " Page";
+            pageContent.Content = (e.ClickedItem as NavLink).Page;
         }
 
         public MainWindow()
@@ -51,7 +51,7 @@ namespace BudgetTracker
             this.InitializeComponent();
             NavLinksList.SelectedItem = NavLinks[0];
             pageHeader.Text = NavLinks[0].Label.ToUpper();
-            pageContent.Content = NavLinks[0].Label + " Page";
+            pageContent.Content = NavLinks[0].Page;
         }
     }
 
@@ -59,5 +59,6 @@ namespace BudgetTracker
     {
         public string Label { get; set; }
         public Symbol Symbol { get; set; }
+        public Page Page { get; set; }
     }
 }
