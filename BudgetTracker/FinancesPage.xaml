@@ -10,5 +10,15 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <TextBlock Text="asdfjkl;"/>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <!-- Do not need this row at the moment -->
+        </Grid.RowDefinitions>
+        <NumberBox x:Name="income" Header="Income" />
+        <NumberBox x:Name="rent" Header="Mortgage / Rent" Grid.Row="1" />
+        <NumberBox x:Name="utilities" Header="Utilities" Grid.Row="2" />
+    </Grid>
 </Page>
