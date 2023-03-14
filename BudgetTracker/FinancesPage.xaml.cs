@@ -26,6 +26,14 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class FinancesPage : Page
     {
+        private List<NumberBox> _incomeBoxes = new List<NumberBox>();
+        private int incomeGridRows = 0;
+
+        public List<NumberBox> IncomeBoxes
+        {
+            get { return _incomeBoxes; }
+        }
+
         public FinancesPage()
         {
             this.InitializeComponent();
@@ -33,13 +41,35 @@ namespace BudgetTracker
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double income = double.Parse(income1.Text) + double.Parse(income2.Text);
+            double income = double.Parse(income1.Text);// + double.Parse(income2.Text);
             double expenses = double.Parse(housing.Text) + double.Parse(utilities.Text) + double.Parse(food.Text) + 
                 double.Parse(other1.Text) + double.Parse(other2.Text) + double.Parse(other3.Text);
 
             totalIncome.Text = "$" + income;
             totalExpenses.Text = "$" + expenses;
             remaining.Text = "$" + (income - expenses);
+        }
+
+        private void addIncomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Add a new row definition to incomeGrid
+            RowDefinition newRow = new RowDefinition();
+            newRow.Height = GridLength.Auto;
+            incomeGrid.RowDefinitions.Add(newRow);
+            
+            // Create new NumberBox
+            incomeGridRows++;
+            NumberBox newBox = new NumberBox();
+            newBox.Header = "Income " + (incomeGridRows + 1) + ":";
+
+            // Add newBox to incomeGrid
+            incomeGrid.Children.Add(newBox);
+            Grid.SetRow(newBox, incomeGridRows);
+        }
+
+        private void removeIncomeButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

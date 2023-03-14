@@ -13,16 +13,18 @@
     <StackPanel Orientation="Vertical">
         <!-- Income Section -->
         <TextBlock Text="Income" HorizontalAlignment="Center"/>
-        <Grid Margin="10" HorizontalAlignment="Center">
+        <Grid x:Name="incomeGrid" Margin="10" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
             <NumberBox x:Name="income1" Header="Income 1:" Text="0.00"/>
-            <NumberBox x:Name="income2" Grid.Row="1" Header="Income 2:" Text="0.00"/>
+            <Button x:Name="addIncomeButton" Content="+" Grid.Column="1" Click="addIncomeButton_Click"/>
+            <Button x:Name="removeIncomeButton" Content="-" Grid.Column="2" Click="removeIncomeButton_Click"/>
         </Grid>
         <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
         <!-- Expenses Section -->
