@@ -80,7 +80,14 @@ namespace BudgetTracker
 
         private void removeIncomeButton_Click(object sender, RoutedEventArgs e)
         {
-
+            if (incomeGridRows > 0)
+            {
+                NumberBox removedBox = _incomeBoxes[incomeGridRows];
+                incomeGrid.Children.Remove(removedBox);
+                incomeGrid.RowDefinitions.Remove(incomeGrid.RowDefinitions[incomeGridRows]);
+                _incomeBoxes.Remove(removedBox);
+                incomeGridRows--;
+            }
         }
     }
 }
