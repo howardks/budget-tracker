@@ -26,7 +26,7 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class FinancesPage : Page
     {
-        private List<NumberBox> _incomeBoxes = new List<NumberBox>();
+        private List<NumberBox> _incomeBoxes = new();
         private int incomeGridRows = 0;
 
         public List<NumberBox> IncomeBoxes
@@ -37,11 +37,20 @@ namespace BudgetTracker
         public FinancesPage()
         {
             this.InitializeComponent();
+            _incomeBoxes.Add(income1);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double income = double.Parse(income1.Text);// + double.Parse(income2.Text);
+            double income = 0;
+            foreach (NumberBox n in IncomeBoxes)
+            {
+                //if (!n.Text.Equals(""))
+                {
+                    income += double.Parse(n.Text);
+                }
+            }
+
             double expenses = double.Parse(housing.Text) + double.Parse(utilities.Text) + double.Parse(food.Text) + 
                 double.Parse(other1.Text) + double.Parse(other2.Text) + double.Parse(other3.Text);
 
@@ -61,6 +70,8 @@ namespace BudgetTracker
             incomeGridRows++;
             NumberBox newBox = new NumberBox();
             newBox.Header = "Income " + (incomeGridRows + 1) + ":";
+            newBox.PlaceholderText = "0.00";
+            _incomeBoxes.Add(newBox);
 
             // Add newBox to incomeGrid
             incomeGrid.Children.Add(newBox);
