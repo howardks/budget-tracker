@@ -22,7 +22,7 @@
                 <ColumnDefinition Width="50"/>
                 <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
-            <NumberBox x:Name="income1" Header="Income 1:" Text="0.00"/>
+            <NumberBox x:Name="income1" Header="Income 1:" PlaceholderText="0.00"/>
             <Button x:Name="addIncomeButton" Content="+" Grid.Column="1" Click="addIncomeButton_Click" Margin="4" Width="40" Height="40" BorderThickness="2"
                     BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
             <Button x:Name="removeIncomeButton" Content="-" Grid.Column="2" Click="removeIncomeButton_Click" Margin="4" Width="40" Height="40" BorderThickness="2"

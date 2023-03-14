@@ -45,7 +45,7 @@ namespace BudgetTracker
             double income = 0;
             foreach (NumberBox n in IncomeBoxes)
             {
-                //if (!n.Text.Equals(""))
+                if (!n.Text.Equals(""))
                 {
                     income += double.Parse(n.Text);
                 }
@@ -54,9 +54,9 @@ namespace BudgetTracker
             double expenses = double.Parse(housing.Text) + double.Parse(utilities.Text) + double.Parse(food.Text) + 
                 double.Parse(other1.Text) + double.Parse(other2.Text) + double.Parse(other3.Text);
 
-            totalIncome.Text = "$" + income;
-            totalExpenses.Text = "$" + expenses;
-            remaining.Text = "$" + (income - expenses);
+            totalIncome.Text = String.Format("{0:C2}", income);
+            totalExpenses.Text = String.Format("{0:C2}", expenses);
+            remaining.Text = String.Format("{0:C2}", income - expenses);
         }
 
         private void addIncomeButton_Click(object sender, RoutedEventArgs e)
