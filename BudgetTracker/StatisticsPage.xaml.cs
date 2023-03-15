@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using System.Drawing;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -46,6 +47,11 @@ namespace BudgetTracker
             }
 
         }
+
+        public void GeneratePieChart()
+        {
+
+        }
     }
 
     public class PieData
@@ -56,10 +62,19 @@ namespace BudgetTracker
         private int number;
         public int Number { get { return number; } set { number = value; } }
 
+        private Color color;
+
         public PieData(string name, int number)
         {
             Name = name;
             Number = number;
+            GenerateRandomColor();
+        }
+
+        private void GenerateRandomColor()
+        {
+            Random rnd = new Random();
+            color = Color.FromArgb(rnd.Next(256), rnd.Next(256), rnd.Next(256));
         }
     }
 }
