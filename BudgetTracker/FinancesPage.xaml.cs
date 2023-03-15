@@ -26,7 +26,7 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class FinancesPage : Page
     {
-        private int incomeGridRows = -1;
+        private int incomeGridRows = -1, expenseGridRows = -1;
 
         private List<NumberBox> _incomeBoxes = new();
         public List<NumberBox> IncomeBoxes { get { return _incomeBoxes; } }
@@ -77,9 +77,10 @@ namespace BudgetTracker
             newRow.Height = GridLength.Auto;
             incomeGrid.RowDefinitions.Add(newRow);
             
-            // Create new NumberBox
+            // Create new NumberBox with custom Header
             incomeGridRows++;
             NumberBox newBox = new();
+            newBox.PlaceholderText = "0.00";
             if (incomeName.Text.Equals(""))
             {
                 newBox.Header = "Income:";
@@ -88,8 +89,6 @@ namespace BudgetTracker
                 newBox.Header = incomeName.Text.Trim() + ":";
                 incomeName.Text = "";
             }
-            
-            newBox.PlaceholderText = "0.00";
             _incomeBoxes.Add(newBox);
 
             // Create new remove Button
@@ -134,7 +133,43 @@ namespace BudgetTracker
 
         private void addExpenseButton_Click(object sender, RoutedEventArgs e)
         {
+            // Add a new row definition to expenseGrid
+            RowDefinition newRow = new();
+            newRow.Height = GridLength.Auto;
+            expenseGrid.RowDefinitions.Add(newRow);
 
+            // Create new NumberBox with custom Header
+            expenseGridRows++;
+            NumberBox newBox = new();
+            newBox.PlaceholderText = "0.00";
+            if (expenseName.Text.Equals(""))
+            {
+                newBox.Header = "Expense:";
+            }
+            else
+            {
+                newBox.Header = expenseName.Text.Trim() + ":";
+                expenseName.Text = "";
+            }
+            _expenseBoxes.Add(newBox);
+
+            // Create new remove Button
+            Button removeButton = new();
+            removeButton.Content = "-";
+            removeButton.Width = 40;
+            removeButton.Height = 40;
+            removeButton.Margin = new Thickness(10, 18, 0, 0);
+            removeButton.BorderBrush = addExpenseButton.BorderBrush;
+            removeButton.BorderThickness = addExpenseButton.BorderThickness;
+            removeButton.Click += RemoveExpenseButton_Click;
+            _expenseButtons.Add(removeButton);
+
+            // Add newBox and removeButton to expenseGrid
+            expenseGrid.Children.Add(newBox);
+            Grid.SetRow(newBox, expenseGridRows);
+            expenseGrid.Children.Add(removeButton);
+            Grid.SetRow(removeButton, expenseGridRows);
+            Grid.SetColumn(removeButton, 1);
         }
 
         private void RemoveExpenseButton_Click(object sender, RoutedEventArgs e)
