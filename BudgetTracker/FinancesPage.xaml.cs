@@ -60,29 +60,29 @@ namespace BudgetTracker
             remaining.Text = String.Format("{0:C2}", income - expenses);
         }
 
-        private void addIncomeButton_Click(object sender, RoutedEventArgs e)
+        private void AddIncomeButton_Click(object sender, RoutedEventArgs e)
         {
             // Add a new row definition to incomeGrid
-            RowDefinition newRow = new RowDefinition();
+            RowDefinition newRow = new();
             newRow.Height = GridLength.Auto;
             incomeGrid.RowDefinitions.Add(newRow);
             
             // Create new NumberBox
             incomeGridRows++;
-            NumberBox newBox = new NumberBox();
+            NumberBox newBox = new();
             newBox.Header = "Income:";
             newBox.PlaceholderText = "0.00";
             _incomeBoxes.Add(newBox);
 
             // Create new remove Button
-            Button removeButton = new Button();
+            Button removeButton = new();
             removeButton.Content = "-";
             removeButton.Width = 40;
             removeButton.Height = 40;
             removeButton.Margin = new Thickness(10,18,0,0);
             removeButton.BorderBrush = addIncomeButton.BorderBrush;
             removeButton.BorderThickness = addIncomeButton.BorderThickness;
-            removeButton.Click += removeIncomeButton_Click;
+            removeButton.Click += RemoveIncomeButton_Click;
             _incomeButtons.Add(removeButton);
 
             // Add newBox and removeButton to incomeGrid
@@ -93,7 +93,7 @@ namespace BudgetTracker
             Grid.SetColumn(removeButton, 1);
         }
 
-        private void removeIncomeButton_Click(object sender, RoutedEventArgs e)
+        private void RemoveIncomeButton_Click(object sender, RoutedEventArgs e)
         {
             int index = _incomeButtons.IndexOf(sender as Button);
             NumberBox removedBox = _incomeBoxes[index];
