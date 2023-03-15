@@ -26,9 +26,43 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class StatisticsPage : Page
     {
+        private FinancesPage fPage = new();
+        private List<PieData> expenses = new();
+        public List<PieData> Expenses
+        {
+            get { return expenses; }
+            set
+            {
+                foreach (NumberBox n in fPage.ExpenseBoxes)
+                {
+                    if (!n.Text.Equals(""))
+                    {
+                        expenses.Add(new PieData(n.Header.ToString(), (int)(Double.Parse(n.Text) / fPage.Expenses)));
+                    }
+                }
+            }
+        }
+
         public StatisticsPage()
         {
             this.InitializeComponent();
+        }
+
+        
+    }
+
+    public class PieData
+    {
+        private String name;
+        public String Name { get { return name; } set { name = value; } }
+
+        private int number;
+        public int Number { get { return number; } set { number = value; } }
+
+        public PieData(string name, int number)
+        {
+            Name = name;
+            Number = number;
         }
     }
 }

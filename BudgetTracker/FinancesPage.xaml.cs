@@ -34,11 +34,14 @@ namespace BudgetTracker
         private List<Button> _incomeButtons = new();
         public List<Button> IncomeButtons { get { return _incomeButtons; } }
 
-        private List<NumberBox> _expenseBoxes = new();
+        private static List<NumberBox> _expenseBoxes = new();
         public List<NumberBox> ExpenseBoxes { get { return _expenseBoxes; } }
 
         private List<Button> _expenseButtons = new();
         public List<Button> ExpenseButtons { get { return _expenseButtons; } }
+
+        private static double expenses = 0;
+        public double Expenses { get { return expenses; } }
 
         public FinancesPage()
         {
@@ -56,7 +59,6 @@ namespace BudgetTracker
                 }
             }
 
-            double expenses = 0;
             foreach (NumberBox n in ExpenseBoxes)
             {
                 if (!n.Text.Equals(""))
