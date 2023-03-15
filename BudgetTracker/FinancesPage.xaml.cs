@@ -26,18 +26,19 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class FinancesPage : Page
     {
-        private List<NumberBox> _incomeBoxes = new();
         private int incomeGridRows = 0;
 
-        public List<NumberBox> IncomeBoxes
-        {
-            get { return _incomeBoxes; }
-        }
+        private List<NumberBox> _incomeBoxes = new();
+        public List<NumberBox> IncomeBoxes { get { return _incomeBoxes; } }
+
+        private List<Button> _incomeButtons = new();
+        public List<Button> IncomeButtons { get { return _incomeButtons; } }
 
         public FinancesPage()
         {
             this.InitializeComponent();
             _incomeBoxes.Add(income1);
+            _incomeButtons.Add(addIncomeButton);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -69,24 +70,47 @@ namespace BudgetTracker
             // Create new NumberBox
             incomeGridRows++;
             NumberBox newBox = new NumberBox();
-            newBox.Header = "Income " + (incomeGridRows + 1) + ":";
+            newBox.Header = "Income:";
             newBox.PlaceholderText = "0.00";
             _incomeBoxes.Add(newBox);
 
-            // Add newBox to incomeGrid
+            // Create new remove Button
+            Button removeButton = new Button();
+            removeButton.Content = "-";
+            removeButton.Width = 40;
+            removeButton.Height = 40;
+            removeButton.Margin = new Thickness(10,18,0,0);
+            removeButton.BorderBrush = addIncomeButton.BorderBrush;
+            removeButton.BorderThickness = addIncomeButton.BorderThickness;
+            removeButton.Click += removeIncomeButton_Click;
+            _incomeButtons.Add(removeButton);
+
+            // Add newBox and removeButton to incomeGrid
             incomeGrid.Children.Add(newBox);
             Grid.SetRow(newBox, incomeGridRows);
+            incomeGrid.Children.Add(removeButton);
+            Grid.SetRow(removeButton, incomeGridRows);
+            Grid.SetColumn(removeButton, 1);
         }
 
         private void removeIncomeButton_Click(object sender, RoutedEventArgs e)
         {
-            if (incomeGridRows > 0)
+            int index = _incomeButtons.IndexOf(sender as Button);
+            NumberBox removedBox = _incomeBoxes[index];
+            Button removedButton = _incomeButtons[index];
+            incomeGrid.Children.Remove(removedBox);
+            incomeGrid.Children.Remove(removedButton);
+            incomeGrid.RowDefinitions.RemoveAt(incomeGridRows);
+            _incomeBoxes.RemoveAt(index);
+            _incomeButtons.RemoveAt(index);
+            incomeGridRows--;
+            
+            // Reposition incomeGrid elements
+            for (int i = 0; i < IncomeBoxes.Count; i++)
             {
-                NumberBox removedBox = _incomeBoxes[incomeGridRows];
-                incomeGrid.Children.Remove(removedBox);
-                incomeGrid.RowDefinitions.Remove(incomeGrid.RowDefinitions[incomeGridRows]);
-                _incomeBoxes.Remove(removedBox);
-                incomeGridRows--;
+                Grid.SetRow(IncomeBoxes[i], i);
+                Grid.SetRow(IncomeButtons[i], i);
+                Grid.SetColumn(IncomeButtons[i], 1);
             }
         }
     }
