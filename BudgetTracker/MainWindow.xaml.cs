@@ -15,11 +15,15 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class MainWindow : Window
     {
+        public static FinancesPage fPage = new FinancesPage();
+        public static GoalsPage gPage = new GoalsPage();
+        public static StatisticsPage sPage = new StatisticsPage();
+
         private ObservableCollection<NavLink> _navLinks = new()
         {
-            new() { Label = "Finances", Symbol = Symbol.List, Page = new FinancesPage() },
-            new() { Label = "Goals", Symbol = Symbol.SolidStar, Page = new GoalsPage() },
-            new() { Label = "Statistics", Symbol = Symbol.FourBars, Page = new StatisticsPage() },
+            new() { Label = "Finances", Symbol = Symbol.List, Page = fPage },
+            new() { Label = "Goals", Symbol = Symbol.SolidStar, Page = gPage },
+            new() { Label = "Statistics", Symbol = Symbol.FourBars, Page = sPage },
             new() { Label = "Settings", Symbol = Symbol.Setting, Page = new SettingsPage() } // Might not keep settings option
         };
 
