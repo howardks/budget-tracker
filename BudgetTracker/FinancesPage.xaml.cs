@@ -50,6 +50,7 @@ namespace BudgetTracker
                 }
             }
 
+            // This calculation is broken if any boxes are empty, will be fixed when expenses are updated to be similar to income
             double expenses = double.Parse(housing.Text) + double.Parse(utilities.Text) + double.Parse(food.Text) + 
                 double.Parse(other1.Text) + double.Parse(other2.Text) + double.Parse(other3.Text);
 
@@ -68,7 +69,15 @@ namespace BudgetTracker
             // Create new NumberBox
             incomeGridRows++;
             NumberBox newBox = new();
-            newBox.Header = "Income:";
+            if (incomeName.Text.Equals(""))
+            {
+                newBox.Header = "Income:";
+            } else
+            {
+                newBox.Header = incomeName.Text.Trim() + ":";
+                incomeName.Text = "";
+            }
+            
             newBox.PlaceholderText = "0.00";
             _incomeBoxes.Add(newBox);
 
