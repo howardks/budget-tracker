@@ -120,5 +120,10 @@ namespace BudgetTracker
                 Grid.SetColumn(IncomeButtons[i], 1);
             }
         }
+
+        private void addExpenseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
