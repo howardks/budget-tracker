@@ -32,17 +32,18 @@ namespace BudgetTracker
         public StatisticsPage()
         {
             this.InitializeComponent();
+            PopulateExpenses();
         }
 
         public void PopulateExpenses()
         {
-                foreach (NumberBox n in fPage.ExpenseBoxes)
+            foreach (NumberBox n in fPage.ExpenseBoxes)
+            {
+                if (!n.Text.Equals(""))
                 {
-                    if (!n.Text.Equals(""))
-                    {
-                        expenses.Add(new PieData(n.Header.ToString(), (int)(Double.Parse(n.Text) / fPage.Expenses)));
-                    }
+                    expenses.Add(new PieData(n.Header.ToString(), (int)(Double.Parse(n.Text) / fPage.Expenses)));
                 }
+            }
 
         }
     }
