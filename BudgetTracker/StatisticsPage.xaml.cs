@@ -32,7 +32,7 @@ namespace BudgetTracker
             {
                 if (!n.Text.Equals(""))
                 {
-                    expenses.Add(new PieData(n.Header.ToString(), (int)(Double.Parse(n.Text) / fPage.Expenses)));
+                    expenses.Add(new PieData(n.Header.ToString(), Double.Parse(n.Text) / fPage.Expenses));
                 }
             }
 
