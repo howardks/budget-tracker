@@ -34,6 +34,12 @@ namespace BudgetTracker
         private List<Button> _incomeButtons = new();
         public List<Button> IncomeButtons { get { return _incomeButtons; } }
 
+        private List<NumberBox> _expenseBoxes = new();
+        public List<NumberBox> ExpenseBoxes { get { return _expenseBoxes; } }
+
+        private List<Button> _expenseButtons = new();
+        public List<Button> ExpenseButtons { get { return _expenseButtons; } }
+
         public FinancesPage()
         {
             this.InitializeComponent();
@@ -50,9 +56,14 @@ namespace BudgetTracker
                 }
             }
 
-            // This calculation is broken if any boxes are empty, will be fixed when expenses are updated to be similar to income
-            double expenses = double.Parse(housing.Text) + double.Parse(utilities.Text) + double.Parse(food.Text) + 
-                double.Parse(other1.Text) + double.Parse(other2.Text) + double.Parse(other3.Text);
+            double expenses = 0;
+            foreach (NumberBox n in ExpenseBoxes)
+            {
+                if (!n.Text.Equals(""))
+                {
+                    expenses += double.Parse(n.Text);
+                }
+            }
 
             totalIncome.Text = String.Format("{0:C2}", income);
             totalExpenses.Text = String.Format("{0:C2}", expenses);
@@ -122,6 +133,11 @@ namespace BudgetTracker
         }
 
         private void addExpenseButton_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void RemoveExpenseButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
