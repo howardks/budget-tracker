@@ -26,7 +26,7 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class FinancesPage : Page
     {
-        private int incomeGridRows = 0;
+        private int incomeGridRows = -1;
 
         private List<NumberBox> _incomeBoxes = new();
         public List<NumberBox> IncomeBoxes { get { return _incomeBoxes; } }
@@ -37,8 +37,6 @@ namespace BudgetTracker
         public FinancesPage()
         {
             this.InitializeComponent();
-            _incomeBoxes.Add(income1);
-            _incomeButtons.Add(addIncomeButton);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -100,7 +98,7 @@ namespace BudgetTracker
             Button removedButton = _incomeButtons[index];
             incomeGrid.Children.Remove(removedBox);
             incomeGrid.Children.Remove(removedButton);
-            incomeGrid.RowDefinitions.RemoveAt(incomeGridRows);
+            incomeGrid.RowDefinitions.RemoveAt(index);
             _incomeBoxes.RemoveAt(index);
             _incomeButtons.RemoveAt(index);
             incomeGridRows--;

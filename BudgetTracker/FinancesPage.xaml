@@ -13,19 +13,25 @@
     <StackPanel Orientation="Vertical">
         <!-- Income Section -->
         <TextBlock Text="Income" HorizontalAlignment="Center"/>
-        <Grid x:Name="incomeGrid" Margin="10" HorizontalAlignment="Center">
+        <Grid Margin="10" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="500"/>
+                <ColumnDefinition Width="200"/>
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
-            <NumberBox x:Name="income1" Header="Income:" PlaceholderText="0.00"/>
+            <TextBox x:Name="incomeName" Header="Add Another Income: " PlaceholderText="New income title"/>
             <Button x:Name="addIncomeButton" Content="+" Grid.Column="1" Click="AddIncomeButton_Click" Margin="10,18,0,0" Width="40" Height="40" BorderThickness="2"
                     BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
-            <!--<Button x:Name="removeIncomeButton" Content="-" Grid.Column="2" Click="removeIncomeButton_Click" Margin="4" Width="40" Height="40" BorderThickness="2"
-                    BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>-->
+        </Grid>
+        <Grid x:Name="incomeGrid" Margin="10" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="60"/>
+            </Grid.ColumnDefinitions>
         </Grid>
         <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
         <!-- Expenses Section -->
