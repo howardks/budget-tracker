@@ -28,11 +28,14 @@ namespace BudgetTracker
     {
         private FinancesPage fPage = new();
         private List<PieData> expenses = new();
-        public List<PieData> Expenses
+
+        public StatisticsPage()
         {
-            get { return expenses; }
-            set
-            {
+            this.InitializeComponent();
+        }
+
+        public void PopulateExpenses()
+        {
                 foreach (NumberBox n in fPage.ExpenseBoxes)
                 {
                     if (!n.Text.Equals(""))
@@ -40,15 +43,8 @@ namespace BudgetTracker
                         expenses.Add(new PieData(n.Header.ToString(), (int)(Double.Parse(n.Text) / fPage.Expenses)));
                     }
                 }
-            }
-        }
 
-        public StatisticsPage()
-        {
-            this.InitializeComponent();
         }
-
-        
     }
 
     public class PieData
