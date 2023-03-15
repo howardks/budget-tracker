@@ -112,6 +112,7 @@ namespace BudgetTracker
 
         private void RemoveIncomeButton_Click(object sender, RoutedEventArgs e)
         {
+            // Remove specified NumberBox, Button, and RowDefinition
             int index = _incomeButtons.IndexOf(sender as Button);
             NumberBox removedBox = _incomeBoxes[index];
             Button removedButton = _incomeButtons[index];
@@ -174,7 +175,24 @@ namespace BudgetTracker
 
         private void RemoveExpenseButton_Click(object sender, RoutedEventArgs e)
         {
+            // Remove specified NumberBox, Button, and RowDefinition
+            int index = _expenseButtons.IndexOf(sender as Button);
+            NumberBox removedBox = _expenseBoxes[index];
+            Button removedButton = _expenseButtons[index];
+            expenseGrid.Children.Remove(removedBox);
+            expenseGrid.Children.Remove(removedButton);
+            expenseGrid.RowDefinitions.RemoveAt(index);
+            _expenseBoxes.RemoveAt(index);
+            _expenseButtons.RemoveAt(index);
+            expenseGridRows--;
 
+            // Reposition incomeGrid elements
+            for (int i = 0; i < ExpenseBoxes.Count; i++)
+            {
+                Grid.SetRow(ExpenseBoxes[i], i);
+                Grid.SetRow(ExpenseButtons[i], i);
+                Grid.SetColumn(ExpenseButtons[i], 1);
+            }
         }
     }
 }
