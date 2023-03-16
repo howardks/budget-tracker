@@ -11,6 +11,6 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical">
-        <Canvas x:Name="mainCanvas" Height="600" Width="600"/>
+        <Canvas x:Name="mainCanvas" Background="White" Height="600" Width="600"/>
     </StackPanel>
 </Page>
