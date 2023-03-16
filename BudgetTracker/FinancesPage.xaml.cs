@@ -33,6 +33,9 @@ namespace BudgetTracker
         private static double expenses = 0;
         public double Expenses { get { return expenses; } }
 
+        private static double income = 0;
+        public double Income { get { return income; } }
+
         public FinancesPage()
         {
             this.InitializeComponent();
@@ -40,7 +43,7 @@ namespace BudgetTracker
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            double income = 0;
+            income = 0;
             foreach (NumberBox n in IncomeBoxes)
             {
                 if (!n.Text.Equals(""))
@@ -61,7 +64,7 @@ namespace BudgetTracker
             totalIncome.Text = String.Format("{0:C2}", income);
             totalExpenses.Text = String.Format("{0:C2}", expenses);
             remaining.Text = String.Format("{0:C2}", income - expenses);
-            MainWindow.sPage.GeneratePieChart();
+            MainWindow.sPage.GenerateExpensePieChart();
         }
 
         private void AddIncomeButton_Click(object sender, RoutedEventArgs e)

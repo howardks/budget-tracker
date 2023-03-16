@@ -41,22 +41,27 @@ namespace BudgetTracker
 
         }
 
-        public void GeneratePieChart()
+        public void GenerateExpensePieChart()
         {
             PopulateExpenses();
-            detailsItemsControl.ItemsSource = null;
-            detailsItemsControl.ItemsSource = expenses;
+            GeneratePieChart(expenseItemsControl, expenseCanvas, expenses);
+        }
 
-            double pieWidth = expenseCanvas.Width, pieHeight = expenseCanvas.Height, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
+        public void GeneratePieChart(ItemsControl itemsControl, Canvas canvas, List<PieData> pieData)
+        {
+            itemsControl.ItemsSource = null;
+            itemsControl.ItemsSource = pieData;
+
+            double pieWidth = canvas.Width, pieHeight = canvas.Height, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
 
             // draw pie
             float angle = 0, prevAngle = 0;
-            foreach (var category in expenses)
+            foreach (PieData piece in pieData)
             {
                 double line1X = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
                 double line1Y = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
 
-                angle = (float)category.Percentage * (float)360 / 100 + prevAngle;
+                angle = (float)piece.Percentage * (float)360 / 100 + prevAngle;
                 Debug.WriteLine(angle);
 
                 double arcX = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
@@ -67,7 +72,7 @@ namespace BudgetTracker
                     Point = new Point(line1X, line1Y)
                 };
                 double arcWidth = radius, arcHeight = radius;
-                bool isLargeArc = category.Percentage > 50;
+                bool isLargeArc = piece.Percentage > 50;
                 var arcSegment = new ArcSegment()
                 {
                     Size = new Size(arcWidth, arcHeight),
@@ -96,10 +101,10 @@ namespace BudgetTracker
                 pathGeometry.Figures.Add(pathFigure);
                 var path = new Path()
                 {
-                    Fill = category.color,
+                    Fill = piece.color,
                     Data = pathGeometry,
                 };
-                expenseCanvas.Children.Add(path);
+                canvas.Children.Add(path);
 
                 prevAngle = angle;
 
@@ -125,8 +130,8 @@ namespace BudgetTracker
                     StrokeThickness = 5,
                 };
 
-                expenseCanvas.Children.Add(outline1);
-                expenseCanvas.Children.Add(outline2);
+                canvas.Children.Add(outline1);
+                canvas.Children.Add(outline2);
             }
         }
     }
