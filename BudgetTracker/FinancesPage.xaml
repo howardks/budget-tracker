@@ -44,7 +44,7 @@
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
             <TextBox x:Name="expenseName" Header="Add Expense: " PlaceholderText="New expense title"/>
-            <Button x:Name="addExpenseButton" Content="+" Grid.Column="1" Click="addExpenseButton_Click" Margin="10,18,0,0" Width="40" Height="40" BorderThickness="2"
+            <Button x:Name="addExpenseButton" Content="+" Grid.Column="1" Click="AddExpenseButton_Click" Margin="10,18,0,0" Width="40" Height="40" BorderThickness="2"
                     BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"/>
         </Grid>
         <Grid x:Name="expenseGrid" Margin="10" HorizontalAlignment="Center">
