@@ -3,8 +3,11 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
+using Windows.Media.Protection.PlayReady;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -35,6 +38,12 @@ namespace BudgetTracker
 
         private static double income = 0;
         public double Income { get { return income; } }
+
+        private List<string> _scheduleList = new()
+        {
+            "Once", "Weekly", "Bi-monthly", "Monthly"
+        };
+        private List<DropDownButton> _scheduleButtons = new();
 
         public FinancesPage()
         {
@@ -89,6 +98,17 @@ namespace BudgetTracker
             }
             _incomeBoxes.Add(newBox);
 
+            // Create new schedule DropDownButton
+            DropDownButton scheduleButton = new DropDownButton();
+            scheduleButton.Content = "Schedule";
+            scheduleButton.Height = 40;
+            scheduleButton.Margin = new Thickness(10, 18, 0, 0);
+            scheduleButton.BorderBrush = addIncomeButton.BorderBrush;
+            scheduleButton.BorderThickness = addIncomeButton.BorderThickness;
+            scheduleButton.HorizontalAlignment = HorizontalAlignment.Center;
+            _scheduleButtons.Add(scheduleButton);
+
+
             // Create new remove Button
             Button removeButton = new();
             removeButton.Content = "-";
@@ -103,9 +123,19 @@ namespace BudgetTracker
             // Add newBox and removeButton to incomeGrid
             incomeGrid.Children.Add(newBox);
             Grid.SetRow(newBox, incomeGridRows);
+            incomeGrid.Children.Add(scheduleButton);
+            Grid.SetRow(scheduleButton, incomeGridRows);
+            Grid.SetColumn(scheduleButton, 1);
             incomeGrid.Children.Add(removeButton);
             Grid.SetRow(removeButton, incomeGridRows);
-            Grid.SetColumn(removeButton, 1);
+            Grid.SetColumn(removeButton, 2);
+        }
+
+        private void ScheduleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListView lv = sender as ListView;
+            _scheduleList[0] = lv.SelectedItem.ToString(); 
+            
         }
 
         private void RemoveIncomeButton_Click(object sender, RoutedEventArgs e)
@@ -114,11 +144,14 @@ namespace BudgetTracker
             int index = _incomeButtons.IndexOf(sender as Button);
             NumberBox removedBox = _incomeBoxes[index];
             Button removedButton = _incomeButtons[index];
+            DropDownButton removedSchedule = _scheduleButtons[index];
             incomeGrid.Children.Remove(removedBox);
             incomeGrid.Children.Remove(removedButton);
+            incomeGrid.Children.Remove(removedSchedule);
             incomeGrid.RowDefinitions.RemoveAt(index);
             _incomeBoxes.RemoveAt(index);
             _incomeButtons.RemoveAt(index);
+            _scheduleButtons.RemoveAt(index);
             incomeGridRows--;
             
             // Reposition incomeGrid elements
@@ -126,7 +159,9 @@ namespace BudgetTracker
             {
                 Grid.SetRow(IncomeBoxes[i], i);
                 Grid.SetRow(IncomeButtons[i], i);
-                Grid.SetColumn(IncomeButtons[i], 1);
+                Grid.SetColumn(IncomeButtons[i], 2);
+                Grid.SetRow(_scheduleButtons[i], i);
+                Grid.SetColumn(_scheduleButtons[i], 1);
             }
         }
 
