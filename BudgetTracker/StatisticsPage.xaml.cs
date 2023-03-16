@@ -38,7 +38,6 @@ namespace BudgetTracker
                     expenses.Add(new PieData(n.Header.ToString(), (Double.Parse(n.Text) / fPage.Expenses) * 100));
                 }
             }
-
         }
 
         public void GenerateExpensePieChart()
@@ -47,29 +46,44 @@ namespace BudgetTracker
             {
                 expenseTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 expensePanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                expenseLine.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+
                 PopulateExpenses();
                 GeneratePieChart(expenseItemsControl, expenseCanvas, expenses);
             } else
             {
                 expenseTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 expensePanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                expenseLine.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             }
         }
 
-        public void GenerateIncomeExpensePieChart()
+        public void GenerateFundsPieChart()
         {
-            List<PieData> incomeExpenseData = new();
-            double expensePercent = 100, remainingPercent = 0;
-
-            if (fPage.Income - fPage.Expenses > 0)
+            if (fPage.Expenses > 0 && fPage.Income > 0)
             {
-                expensePercent = (fPage.Expenses / fPage.Income) * 100;
-                remainingPercent = 100 - expensePercent;
-            } 
-            incomeExpenseData.Add(new("Expenses:", expensePercent, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0))));
-            incomeExpenseData.Add(new("Remaining Funds:", remainingPercent, new SolidColorBrush(Color.FromArgb(255, 0, 0, 255))));
+                fundsTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                fundsPanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                fundsLine.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
-            GeneratePieChart(incomeExpenseitemsControl, incomeExpenseCanvas, incomeExpenseData);
+                List<PieData> fundsData = new();
+                double expensePercent = 100, remainingPercent = 0;
+
+                if (fPage.Income - fPage.Expenses > 0)
+                {
+                    expensePercent = (fPage.Expenses / fPage.Income) * 100;
+                    remainingPercent = 100 - expensePercent;
+                }
+                fundsData.Add(new("Expenses:", expensePercent, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0))));
+                fundsData.Add(new("Remaining Funds:", remainingPercent, new SolidColorBrush(Color.FromArgb(255, 0, 0, 255))));
+
+                GeneratePieChart(fundsItemsControl, fundsCanvas, fundsData);
+            } else
+            {
+                fundsTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                fundsPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                fundsLine.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            }
         }
 
         public void GeneratePieChart(ItemsControl itemsControl, Canvas canvas, List<PieData> pieData)

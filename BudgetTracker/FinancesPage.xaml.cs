@@ -65,7 +65,7 @@ namespace BudgetTracker
             totalExpenses.Text = String.Format("{0:C2}", expenses);
             remaining.Text = String.Format("{0:C2}", income - expenses);
             MainWindow.sPage.GenerateExpensePieChart();
-            MainWindow.sPage.GenerateIncomeExpensePieChart();
+            MainWindow.sPage.GenerateFundsPieChart();
         }
 
         private void AddIncomeButton_Click(object sender, RoutedEventArgs e)
