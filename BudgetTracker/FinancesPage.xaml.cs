@@ -99,9 +99,13 @@ namespace BudgetTracker
             _incomeBoxes.Add(newBox);
 
             // Create new schedule DropDownButton
+            ListView lv = new() { ItemsSource = _scheduleList };
+            Flyout sFlyout = new() { Content = lv };
             DropDownButton scheduleButton = new DropDownButton();
             scheduleButton.Content = "Schedule";
+            scheduleButton.Flyout = sFlyout;
             scheduleButton.Height = 40;
+            scheduleButton.Width = 120;
             scheduleButton.Margin = new Thickness(10, 18, 0, 0);
             scheduleButton.BorderBrush = addIncomeButton.BorderBrush;
             scheduleButton.BorderThickness = addIncomeButton.BorderThickness;
@@ -129,6 +133,17 @@ namespace BudgetTracker
             incomeGrid.Children.Add(removeButton);
             Grid.SetRow(removeButton, incomeGridRows);
             Grid.SetColumn(removeButton, 2);
+            
+            lv.SelectionChanged += (o, args) =>
+                {
+                    Lv_SelectionChanged(lv, scheduleButton);
+                };
+        }
+
+        private void Lv_SelectionChanged(ListView sender, Button ddb)
+        {
+            ddb.Content = sender.SelectedItem.ToString();
+
         }
 
         private void ScheduleList_SelectionChanged(object sender, SelectionChangedEventArgs e)
