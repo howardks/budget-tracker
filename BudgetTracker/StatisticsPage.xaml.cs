@@ -47,9 +47,7 @@ namespace BudgetTracker
             detailsItemsControl.ItemsSource = null;
             detailsItemsControl.ItemsSource = expenses;
 
-            float pieWidth = 600, pieHeight = 600, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
-            mainCanvas.Width = pieWidth;
-            mainCanvas.Height = pieHeight;
+            double pieWidth = expenseCanvas.Width, pieHeight = expenseCanvas.Height, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
 
             // draw pie
             float angle = 0, prevAngle = 0;
@@ -101,7 +99,7 @@ namespace BudgetTracker
                     Fill = category.color,
                     Data = pathGeometry,
                 };
-                mainCanvas.Children.Add(path);
+                expenseCanvas.Children.Add(path);
 
                 prevAngle = angle;
 
@@ -127,8 +125,8 @@ namespace BudgetTracker
                     StrokeThickness = 5,
                 };
 
-                mainCanvas.Children.Add(outline1);
-                mainCanvas.Children.Add(outline2);
+                expenseCanvas.Children.Add(outline1);
+                expenseCanvas.Children.Add(outline2);
             }
         }
     }
