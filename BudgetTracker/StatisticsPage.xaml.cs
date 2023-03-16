@@ -111,7 +111,7 @@ namespace BudgetTracker
                     Y1 = centerY,
                     X2 = line1Segment.Point.X,
                     Y2 = line1Segment.Point.Y,
-                    Stroke = new SolidColorBrush(Color.FromArgb(0, 255, 0, 0)),
+                    Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
                     StrokeThickness = 5,
                 };
                 var outline2 = new Line()
@@ -120,7 +120,7 @@ namespace BudgetTracker
                     Y1 = centerY,
                     X2 = arcSegment.Point.X,
                     Y2 = arcSegment.Point.Y,
-                    Stroke = new SolidColorBrush(Color.FromArgb(0, 100, 255, 0)),
+                    Stroke = new SolidColorBrush(Color.FromArgb(255, 0, 0, 0)),
                     StrokeThickness = 5,
                 };
 
@@ -152,6 +152,6 @@ public class PieData
     private void GenerateRandomColor()
     {
         Random rnd = new Random();
-        color = new SolidColorBrush(Color.FromArgb(0, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
+        color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
     }
 }
