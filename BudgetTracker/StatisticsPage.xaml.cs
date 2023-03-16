@@ -43,8 +43,17 @@ namespace BudgetTracker
 
         public void GenerateExpensePieChart()
         {
-            PopulateExpenses();
-            GeneratePieChart(expenseItemsControl, expenseCanvas, expenses);
+            if (fPage.Expenses > 0)
+            {
+                expenseTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                expensePanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                PopulateExpenses();
+                GeneratePieChart(expenseItemsControl, expenseCanvas, expenses);
+            } else
+            {
+                expenseTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                expensePanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            }
         }
 
         public void GenerateIncomeExpensePieChart()
@@ -71,84 +80,101 @@ namespace BudgetTracker
 
             double pieWidth = canvas.Width, pieHeight = canvas.Height, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
 
-            // Draw pie chart
-            double angle = 0, prevAngle = 0;
-            foreach (PieData piece in pieData)
+            if (pieData.Count > 1 && pieData[0].Percentage < 100 && pieData[1].Percentage < 100)
             {
-                double line1X = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
-                double line1Y = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
-
-                angle = piece.Percentage * 360 / 100 + prevAngle;
-                Debug.WriteLine(angle);
-
-                double arcX = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
-                double arcY = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
-
-                var line1Segment = new LineSegment()
+                // Draw pie chart
+                double angle = 0, prevAngle = 0;
+                foreach (PieData piece in pieData)
                 {
-                    Point = new Point(line1X, line1Y)
-                };
-                double arcWidth = radius, arcHeight = radius;
-                bool isLargeArc = piece.Percentage > 50;
-                var arcSegment = new ArcSegment()
-                {
-                    Size = new Size(arcWidth, arcHeight),
-                    Point = new Point(arcX, arcY),
-                    SweepDirection = SweepDirection.Clockwise,
-                    IsLargeArc = isLargeArc,
-                };
-                var line2Segment = new LineSegment()
-                {
-                    Point = new Point(centerX, centerY)
-                };
+                    double line1X = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
+                    double line1Y = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
 
-                var pathFigure = new PathFigure()
-                {
-                    StartPoint = new Point(centerX, centerY),
-                    Segments = new PathSegmentCollection()
+                    angle = piece.Percentage * 360 / 100 + prevAngle;
+                    Debug.WriteLine(angle);
+
+                    double arcX = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
+                    double arcY = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
+
+                    var line1Segment = new LineSegment()
+                    {
+                        Point = new Point(line1X, line1Y)
+                    };
+                    double arcWidth = radius, arcHeight = radius;
+                    bool isLargeArc = piece.Percentage > 50;
+                    var arcSegment = new ArcSegment()
+                    {
+                        Size = new Size(arcWidth, arcHeight),
+                        Point = new Point(arcX, arcY),
+                        SweepDirection = SweepDirection.Clockwise,
+                        IsLargeArc = isLargeArc,
+                    };
+                    var line2Segment = new LineSegment()
+                    {
+                        Point = new Point(centerX, centerY)
+                    };
+
+                    var pathFigure = new PathFigure()
+                    {
+                        StartPoint = new Point(centerX, centerY),
+                        Segments = new PathSegmentCollection()
                     {
                         line1Segment,
                         arcSegment,
                         line2Segment,
                     },
-                    IsClosed = true
-                };
+                        IsClosed = true
+                    };
 
-                var pathGeometry = new PathGeometry();
-                pathGeometry.Figures.Add(pathFigure);
-                var path = new Path()
+                    var pathGeometry = new PathGeometry();
+                    pathGeometry.Figures.Add(pathFigure);
+                    var path = new Path()
+                    {
+                        Fill = piece.color,
+                        Data = pathGeometry,
+                    };
+                    canvas.Children.Add(path);
+
+                    prevAngle = angle;
+
+
+                    // draw outlines
+                    Brush outlineBrush = Resources["SystemControlBackgroundChromeMediumLowBrush"] as Brush;
+                    var outline1 = new Line()
+                    {
+                        X1 = centerX,
+                        Y1 = centerY,
+                        X2 = line1Segment.Point.X,
+                        Y2 = line1Segment.Point.Y,
+                        Stroke = outlineBrush,
+                        StrokeThickness = 5,
+                    };
+                    var outline2 = new Line()
+                    {
+                        X1 = centerX,
+                        Y1 = centerY,
+                        X2 = arcSegment.Point.X,
+                        Y2 = arcSegment.Point.Y,
+                        Stroke = outlineBrush,
+                        StrokeThickness = 5,
+                    };
+
+                    canvas.Children.Add(outline1);
+                    canvas.Children.Add(outline2);
+                }
+            } else
+            {
+                foreach (PieData piece in pieData)
                 {
-                    Fill = piece.color,
-                    Data = pathGeometry,
-                };
-                canvas.Children.Add(path);
+                    if (piece.Percentage == 100)
+                    {
+                        Ellipse circle = new Ellipse();
+                        circle.Width = pieWidth;
+                        circle.Height = pieHeight;
+                        circle.Fill = piece.color;
 
-                prevAngle = angle;
-
-
-                // draw outlines
-                Brush outlineBrush = Resources["SystemControlBackgroundChromeMediumLowBrush"] as Brush;
-                var outline1 = new Line()
-                {
-                    X1 = centerX,
-                    Y1 = centerY,
-                    X2 = line1Segment.Point.X,
-                    Y2 = line1Segment.Point.Y,
-                    Stroke = outlineBrush,
-                    StrokeThickness = 5,
-                };
-                var outline2 = new Line()
-                {
-                    X1 = centerX,
-                    Y1 = centerY,
-                    X2 = arcSegment.Point.X,
-                    Y2 = arcSegment.Point.Y,
-                    Stroke = outlineBrush,
-                    StrokeThickness = 5,
-                };
-
-                canvas.Children.Add(outline1);
-                canvas.Children.Add(outline2);
+                        canvas.Children.Add(circle);
+                    }
+                }
             }
         }
     }
@@ -164,12 +190,14 @@ namespace BudgetTracker
         public double Percentage { get { return percentage; } set { percentage = value; } }
 
         public SolidColorBrush color; // Make private later
+        public string formattedOutput;
 
         public PieData(string name, double percentage)
         {
             Name = name;
             Percentage = percentage;
             GenerateRandomColor();
+            formattedOutput = String.Format("{0,-26}{1,6:P2}", Name, Percentage/100);
         }
 
         public PieData(string name, double percentage, SolidColorBrush color)
@@ -177,6 +205,7 @@ namespace BudgetTracker
             Name = name;
             Percentage = percentage;
             this.color = color;
+            formattedOutput = String.Format("{0,-26}\t{1,6:P2}", Name, Percentage/100);
         }
 
         private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors

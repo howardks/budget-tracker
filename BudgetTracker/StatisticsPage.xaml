@@ -11,26 +11,7 @@
     mc:Ignorable="d">
     
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="Expense Distribution" HorizontalAlignment="Center" Margin="10"/>
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
-            <Canvas x:Name="expenseCanvas" Height="400" Width="400"/>
-            <ScrollViewer Margin="20,0" Padding="10" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <ItemsControl x:Name="expenseItemsControl">
-                    <ItemsControl.ItemTemplate>
-                        <DataTemplate x:DataType="local:PieData">
-                            <StackPanel Orientation="Horizontal" Margin="10">
-                                <Rectangle Width="16" Height="16" Fill="{x:Bind color}" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind Percentage}"  Margin="20,0,0,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="%" VerticalAlignment="Center"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
-            </ScrollViewer>
-        </StackPanel>
-        <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
-        <TextBlock Text="Income and Expense Ratio" HorizontalAlignment="Center" Margin="10"/>
+        <TextBlock Text="Remaining Funds" HorizontalAlignment="Center" Margin="10"/>
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
             <Canvas x:Name="incomeExpenseCanvas" Height="400" Width="400"/>
             <ScrollViewer Margin="20,0" Padding="10" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
@@ -39,9 +20,24 @@
                         <DataTemplate x:DataType="local:PieData">
                             <StackPanel Orientation="Horizontal" Margin="10">
                                 <Rectangle Width="16" Height="16" Fill="{x:Bind color}" Margin="0,0,5,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind Name}" VerticalAlignment="Center"/>
-                                <TextBlock Text="{x:Bind Percentage}"  Margin="20,0,0,0" VerticalAlignment="Center"/>
-                                <TextBlock Text="%" VerticalAlignment="Center"/>
+                                <TextBlock Text="{x:Bind formattedOutput}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+        <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
+        <TextBlock x:Name="expenseTitle" Text="Expense Distribution" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
+        <StackPanel x:Name="expensePanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
+            <Canvas x:Name="expenseCanvas" Height="400" Width="400"/>
+            <ScrollViewer Margin="20,0" Padding="10" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="expenseItemsControl">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:PieData">
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <Rectangle Width="16" Height="16" Fill="{x:Bind color}" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{x:Bind formattedOutput}" VerticalAlignment="Center"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
