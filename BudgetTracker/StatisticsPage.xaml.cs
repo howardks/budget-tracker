@@ -197,7 +197,7 @@ namespace BudgetTracker
             Name = name;
             Percentage = percentage;
             GenerateRandomColor();
-            formattedOutput = String.Format("{0,-26}{1,6:P2}", Name, Percentage/100);
+            formattedOutput = String.Format("{0,-22} {1:P2}", Name, Percentage/100);
         }
 
         public PieData(string name, double percentage, SolidColorBrush color)
@@ -205,7 +205,7 @@ namespace BudgetTracker
             Name = name;
             Percentage = percentage;
             this.color = color;
-            formattedOutput = String.Format("{0,-26}\t{1,6:P2}", Name, Percentage/100);
+            formattedOutput = String.Format("{0,-22} {1:P2}", Name, Percentage/100);
         }
 
         private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
