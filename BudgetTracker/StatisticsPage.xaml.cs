@@ -57,8 +57,8 @@ namespace BudgetTracker
                 expensePercent = (fPage.Expenses / fPage.Income) * 100;
                 remainingPercent = 100 - expensePercent;
             } 
-            incomeExpenseData.Add(new("Expenses:", expensePercent));
-            incomeExpenseData.Add(new("Remaining Funds:", remainingPercent));
+            incomeExpenseData.Add(new("Expenses:", expensePercent, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0))));
+            incomeExpenseData.Add(new("Remaining Funds:", remainingPercent, new SolidColorBrush(Color.FromArgb(255, 0, 0, 255))));
 
             GeneratePieChart(incomeExpenseitemsControl, incomeExpenseCanvas, incomeExpenseData);
         }
@@ -163,13 +163,20 @@ namespace BudgetTracker
         private double percentage;
         public double Percentage { get { return percentage; } set { percentage = value; } }
 
-        public SolidColorBrush color;
+        public SolidColorBrush color; // Make private later
 
         public PieData(string name, double percentage)
         {
             Name = name;
             Percentage = percentage;
             GenerateRandomColor();
+        }
+
+        public PieData(string name, double percentage, SolidColorBrush color)
+        {
+            Name = name;
+            Percentage = percentage;
+            this.color = color;
         }
 
         private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
