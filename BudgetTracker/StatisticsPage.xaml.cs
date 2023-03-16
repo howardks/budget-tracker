@@ -47,21 +47,38 @@ namespace BudgetTracker
             GeneratePieChart(expenseItemsControl, expenseCanvas, expenses);
         }
 
+        public void GenerateIncomeExpensePieChart()
+        {
+            List<PieData> incomeExpenseData = new();
+            double expensePercent = 100, remainingPercent = 0;
+
+            if (fPage.Income - fPage.Expenses > 0)
+            {
+                expensePercent = (fPage.Expenses / fPage.Income) * 100;
+                remainingPercent = 100 - expensePercent;
+            } 
+            incomeExpenseData.Add(new("Expenses:", expensePercent));
+            incomeExpenseData.Add(new("Remaining Funds:", remainingPercent));
+
+            GeneratePieChart(incomeExpenseitemsControl, incomeExpenseCanvas, incomeExpenseData);
+        }
+
         public void GeneratePieChart(ItemsControl itemsControl, Canvas canvas, List<PieData> pieData)
         {
+            canvas.Children.Clear();
             itemsControl.ItemsSource = null;
             itemsControl.ItemsSource = pieData;
 
             double pieWidth = canvas.Width, pieHeight = canvas.Height, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
 
-            // draw pie
-            float angle = 0, prevAngle = 0;
+            // Draw pie chart
+            double angle = 0, prevAngle = 0;
             foreach (PieData piece in pieData)
             {
                 double line1X = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
                 double line1Y = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
 
-                angle = (float)piece.Percentage * (float)360 / 100 + prevAngle;
+                angle = piece.Percentage * 360 / 100 + prevAngle;
                 Debug.WriteLine(angle);
 
                 double arcX = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;

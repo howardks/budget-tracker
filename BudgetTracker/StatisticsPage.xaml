@@ -34,7 +34,7 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10">
             <Canvas x:Name="incomeExpenseCanvas" Height="400" Width="400"/>
             <ScrollViewer Margin="20,0" Padding="10" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
-                <ItemsControl x:Name="itemsControl">
+                <ItemsControl x:Name="incomeExpenseitemsControl">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="local:PieData">
                             <StackPanel Orientation="Horizontal" Margin="10">
