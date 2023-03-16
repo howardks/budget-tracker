@@ -152,6 +152,6 @@ public class PieData
     private void GenerateRandomColor()
     {
         Random rnd = new Random();
-        color = new SolidColorBrush(Color.FromArgb(0, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
+        color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
     }
 }
