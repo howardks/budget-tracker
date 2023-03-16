@@ -10,7 +10,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel x:Name="outerPanel" Orientation="Vertical">
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
         <Canvas x:Name="mainCanvas" Height="600" Width="600"/>
+        <ScrollViewer Margin="20,0" Padding="10" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <ItemsControl x:Name="detailsItemsControl">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate x:DataType="local:PieData">
+                        <StackPanel Orientation="Horizontal" Margin="10">
+                            <Rectangle Width="20" Height="20" Fill="{x:Bind color}" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind Name}" FontSize="20" VerticalAlignment="Center"/>
+                            <TextBlock Text="{x:Bind Percentage}" FontSize="20" Margin="20,0,0,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="%" FontSize="20" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
     </StackPanel>
 </Page>

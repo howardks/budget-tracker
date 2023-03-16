@@ -44,6 +44,8 @@ namespace BudgetTracker
         public void GeneratePieChart()
         {
             PopulateExpenses();
+            detailsItemsControl.ItemsSource = null;
+            detailsItemsControl.ItemsSource = expenses;
 
             float pieWidth = 600, pieHeight = 600, centerX = pieWidth / 2, centerY = pieHeight / 2, radius = pieWidth / 2;
             mainCanvas.Width = pieWidth;
@@ -130,29 +132,30 @@ namespace BudgetTracker
             }
         }
     }
-}
 
 
-public class PieData
-{
-    private String name;
-    public String Name { get { return name; } set { name = value; } }
 
-    private double percentage;
-    public double Percentage { get { return percentage; } set { percentage = value; } }
-
-    public SolidColorBrush color;
-
-    public PieData(string name, double percentage)
+    public class PieData
     {
-        Name = name;
-        Percentage = percentage;
-        GenerateRandomColor();
-    }
+        private String name;
+        public String Name { get { return name; } set { name = value; } }
 
-    private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
-    {
-        Random rnd = new Random();
-        color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
+        private double percentage;
+        public double Percentage { get { return percentage; } set { percentage = value; } }
+
+        public SolidColorBrush color;
+
+        public PieData(string name, double percentage)
+        {
+            Name = name;
+            Percentage = percentage;
+            GenerateRandomColor();
+        }
+
+        private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
+        {
+            Random rnd = new Random();
+            color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
+        }
     }
 }
