@@ -10,7 +10,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Vertical">
-        <Canvas x:Name="mainCanvas" Background="White" Height="600" Width="600"/>
+    <StackPanel x:Name="outerPanel" Orientation="Vertical">
+        <Canvas x:Name="mainCanvas" Height="600" Width="600"/>
     </StackPanel>
 </Page>

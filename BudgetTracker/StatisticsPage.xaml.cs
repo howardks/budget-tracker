@@ -105,13 +105,14 @@ namespace BudgetTracker
 
 
                 // draw outlines
+                Brush outlineBrush = Resources["SystemControlBackgroundChromeMediumLowBrush"] as Brush;
                 var outline1 = new Line()
                 {
                     X1 = centerX,
                     Y1 = centerY,
                     X2 = line1Segment.Point.X,
                     Y2 = line1Segment.Point.Y,
-                    Stroke = new SolidColorBrush(Color.FromArgb(0, 255, 0, 0)),
+                    Stroke = outlineBrush,
                     StrokeThickness = 5,
                 };
                 var outline2 = new Line()
@@ -120,7 +121,7 @@ namespace BudgetTracker
                     Y1 = centerY,
                     X2 = arcSegment.Point.X,
                     Y2 = arcSegment.Point.Y,
-                    Stroke = new SolidColorBrush(Color.FromArgb(0, 100, 255, 0)),
+                    Stroke = outlineBrush,
                     StrokeThickness = 5,
                 };
 
@@ -149,7 +150,7 @@ public class PieData
         GenerateRandomColor();
     }
 
-    private void GenerateRandomColor()
+    private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
     {
         Random rnd = new Random();
         color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
