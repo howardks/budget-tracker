@@ -27,6 +27,10 @@ namespace BudgetTracker
         private static double income = 0;
         public double Income { get { return income; } }
 
+        // Dictionary of expenses for sharing with Statistics page
+        private static Dictionary<string, double> _expenseValues = new();
+        public Dictionary<string, double> ExpenseValues { get { return _expenseValues; } }
+
         // List for schedule drop down buttons contents
         private List<string> _scheduleList = new()
         {
@@ -41,7 +45,7 @@ namespace BudgetTracker
         private List<DropDownButton> _incomeSchedules = new();
 
         // Lists for expense rows
-        private static List<NumberBox> _expenseBoxes = new();
+        private List<NumberBox> _expenseBoxes = new();
         public List<NumberBox> ExpenseBoxes { get { return _expenseBoxes; } }
 
         private List<Button> _expenseButtons = new();
@@ -78,24 +82,28 @@ namespace BudgetTracker
             }
 
             expenses = 0;
+            _expenseValues.Clear();
             for (int i = 0; i < ExpenseBoxes.Count; i++)
             {
                 if (!ExpenseBoxes[i].Text.Equals(""))
                 {
+                    double expenseVal = 0;
                     switch (_expenseSchedules[i].Content.ToString())
                     {
                         case "Weekly":
-                            expenses += 4 * double.Parse(ExpenseBoxes[i].Text);
+                            expenseVal = 4 * double.Parse(ExpenseBoxes[i].Text);
                             break;
                         case "Bi-monthly":
-                            expenses += 2 * double.Parse(ExpenseBoxes[i].Text);
+                            expenseVal = 2 * double.Parse(ExpenseBoxes[i].Text);
                             break;
                         case "Once":
                         case "Monthly":
                         default:
-                            expenses += double.Parse(ExpenseBoxes[i].Text);
+                            expenseVal = double.Parse(ExpenseBoxes[i].Text);
                             break;
                     }
+                    expenses += expenseVal;
+                    _expenseValues.Add(ExpenseBoxes[i].Header.ToString(), expenseVal);
                 }
             }
 

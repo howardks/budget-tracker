@@ -21,7 +21,7 @@ namespace BudgetTracker
     public sealed partial class StatisticsPage : Page
     {
         private FinancesPage fPage = MainWindow.fPage;
-        private List<PieData> expenses = new();
+        private List<PieData> expensePieces = new();
 
         public StatisticsPage()
         {
@@ -30,13 +30,11 @@ namespace BudgetTracker
 
         public void PopulateExpenses()
         {
-            expenses.Clear();
-            foreach (NumberBox n in fPage.ExpenseBoxes)
+            expensePieces.Clear();
+
+            foreach (KeyValuePair<string, double> entry in fPage.ExpenseValues)
             {
-                if (!n.Text.Equals(""))
-                {
-                    expenses.Add(new PieData(n.Header.ToString(), (Double.Parse(n.Text) / fPage.Expenses) * 100));
-                }
+                expensePieces.Add(new PieData(entry.Key, entry.Value / fPage.Expenses * 100, entry.Value));
             }
         }
 
@@ -49,7 +47,7 @@ namespace BudgetTracker
                 expenseLine.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
                 PopulateExpenses();
-                GeneratePieChart(expenseItemsControl, expenseCanvas, expenses);
+                GeneratePieChart(expenseItemsControl, expenseCanvas, expensePieces);
             } else
             {
                 expenseTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
@@ -74,8 +72,8 @@ namespace BudgetTracker
                     expensePercent = (fPage.Expenses / fPage.Income) * 100;
                     remainingPercent = 100 - expensePercent;
                 }
-                fundsData.Add(new("Expenses:", expensePercent, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0))));
-                fundsData.Add(new("Remaining Funds:", remainingPercent, new SolidColorBrush(Color.FromArgb(255, 0, 0, 255))));
+                fundsData.Add(new("Expenses:", expensePercent, fPage.Expenses, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0))));
+                fundsData.Add(new("Remaining Funds:", remainingPercent, fPage.Income - fPage.Expenses, new SolidColorBrush(Color.FromArgb(255, 0, 0, 255))));
 
                 GeneratePieChart(fundsItemsControl, fundsCanvas, fundsData);
             } else
@@ -104,7 +102,6 @@ namespace BudgetTracker
                     double line1Y = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
 
                     angle = piece.Percentage * 360 / 100 + prevAngle;
-                    Debug.WriteLine(angle);
 
                     double arcX = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
                     double arcY = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
@@ -203,23 +200,28 @@ namespace BudgetTracker
         private double percentage;
         public double Percentage { get { return percentage; } set { percentage = value; } }
 
+        private double amount;
+        public double Amount { get { return amount; } set { amount = value; } }
+
         public SolidColorBrush color; // Make private later
         public string formattedOutput;
 
-        public PieData(string name, double percentage)
+        public PieData(string name, double percentage, double amount)
         {
             Name = name;
             Percentage = percentage;
+            Amount = amount;
             GenerateRandomColor();
-            formattedOutput = String.Format("{0,-22} {1:P2}", Name, Percentage/100);
+            formattedOutput = String.Format("{0,-22} {1:P2}   {2:C2}", Name, Percentage/100, Amount);
         }
 
-        public PieData(string name, double percentage, SolidColorBrush color)
+        public PieData(string name, double percentage, double amount, SolidColorBrush color)
         {
             Name = name;
             Percentage = percentage;
+            Amount = amount;
             this.color = color;
-            formattedOutput = String.Format("{0,-22} {1:P2}", Name, Percentage/100);
+            formattedOutput = String.Format("{0,-22} {1:P2}   {2:C2}", Name, Percentage/100, Amount);
         }
 
         private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
