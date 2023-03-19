@@ -47,7 +47,6 @@ namespace BudgetTracker
         private List<Button> _expenseButtons = new();
         public List<Button> ExpenseButtons { get { return _expenseButtons; } }
         private List<DropDownButton> _expenseSchedules = new();
-        public List<DropDownButton> ExpenseSchedules { get { return _expenseSchedules; } }
 
         public FinancesPage()
         {
@@ -211,6 +210,20 @@ namespace BudgetTracker
             }
             _expenseBoxes.Add(newBox);
 
+            // Create new schedule DropDownButton
+            ListView lv = new() { ItemsSource = _scheduleList };
+            Flyout sFlyout = new() { Content = lv };
+            DropDownButton scheduleButton = new DropDownButton();
+            scheduleButton.Content = "Schedule";
+            scheduleButton.Flyout = sFlyout;
+            scheduleButton.Height = 40;
+            scheduleButton.Width = 124;
+            scheduleButton.Margin = new Thickness(10, 18, 0, 0);
+            scheduleButton.BorderBrush = addIncomeButton.BorderBrush;
+            scheduleButton.BorderThickness = addIncomeButton.BorderThickness;
+            scheduleButton.HorizontalAlignment = HorizontalAlignment.Center;
+            _expenseSchedules.Add(scheduleButton);
+
             // Create new remove Button
             Button removeButton = new();
             removeButton.Content = "-";
@@ -222,12 +235,20 @@ namespace BudgetTracker
             removeButton.Click += RemoveExpenseButton_Click;
             _expenseButtons.Add(removeButton);
 
-            // Add newBox and removeButton to expenseGrid
+            // Add newBox and removeButton to incomeGrid
             expenseGrid.Children.Add(newBox);
             Grid.SetRow(newBox, expenseGridRows);
+            expenseGrid.Children.Add(scheduleButton);
+            Grid.SetRow(scheduleButton, expenseGridRows);
+            Grid.SetColumn(scheduleButton, 1);
             expenseGrid.Children.Add(removeButton);
             Grid.SetRow(removeButton, expenseGridRows);
-            Grid.SetColumn(removeButton, 1);
+            Grid.SetColumn(removeButton, 2);
+
+            lv.SelectionChanged += (o, args) =>
+            {
+                Lv_SelectionChanged(lv, scheduleButton);
+            };
         }
 
         private void RemoveExpenseButton_Click(object sender, RoutedEventArgs e)

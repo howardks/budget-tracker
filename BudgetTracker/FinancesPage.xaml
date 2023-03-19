@@ -50,6 +50,7 @@
         <Grid x:Name="expenseGrid" Margin="10" HorizontalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="140"/>
                 <ColumnDefinition Width="60"/>
             </Grid.ColumnDefinitions>
         </Grid>
