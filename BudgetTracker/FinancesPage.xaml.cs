@@ -18,32 +18,37 @@ namespace BudgetTracker
     /// </summary>
     public sealed partial class FinancesPage : Page
     {
+        // Variables for tracking the newest grid row location
         private int incomeGridRows = -1, expenseGridRows = -1;
 
+        // Variables for tracking expenses and income
+        private static double expenses = 0;
+        public double Expenses { get { return expenses; } }
+        private static double income = 0;
+        public double Income { get { return income; } }
+
+        // List for schedule drop down buttons contents
+        private List<string> _scheduleList = new()
+        {
+            "Once", "Weekly", "Bi-monthly", "Monthly"
+        };
+
+        // Lists for income rows
         private List<NumberBox> _incomeBoxes = new();
         public List<NumberBox> IncomeBoxes { get { return _incomeBoxes; } }
-
         private List<Button> _incomeButtons = new();
         public List<Button> IncomeButtons { get { return _incomeButtons; } }
+        private List<DropDownButton> _incomeSchedules = new();
+        public List<DropDownButton> IncomeSchedules { get { return _incomeSchedules; } }
 
+        // Lists for expense rows
         private static List<NumberBox> _expenseBoxes = new();
         public List<NumberBox> ExpenseBoxes { get { return _expenseBoxes; } }
 
         private List<Button> _expenseButtons = new();
         public List<Button> ExpenseButtons { get { return _expenseButtons; } }
-
-        private static double expenses = 0;
-        public double Expenses { get { return expenses; } }
-
-        private static double income = 0;
-        public double Income { get { return income; } }
-
-        private List<string> _scheduleList = new()
-        {
-            "Once", "Weekly", "Bi-monthly", "Monthly"
-        };
-        private List<DropDownButton> _incomeSchedules = new();
-        public List<DropDownButton> IncomeSchedules { get { return _incomeSchedules; } }
+        private List<DropDownButton> _expenseSchedules = new();
+        public List<DropDownButton> ExpenseSchedules { get { return _expenseSchedules; } }
 
         public FinancesPage()
         {
