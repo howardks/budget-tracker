@@ -32,9 +32,9 @@ namespace BudgetTracker
         {
             expensePieces.Clear();
 
-            foreach (KeyValuePair<string, double> entry in fPage.ExpenseValues)
+            for (int i = 0; i < fPage.ExpenseValues.Count; i++)
             {
-                expensePieces.Add(new PieData(entry.Key, entry.Value / fPage.Expenses * 100, entry.Value));
+                expensePieces.Add(new PieData(fPage.ExpenseHeaders[i], fPage.ExpenseValues[i] / fPage.Expenses * 100, fPage.ExpenseValues[i]));
             }
         }
 
