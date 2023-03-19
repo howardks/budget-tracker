@@ -39,7 +39,6 @@ namespace BudgetTracker
         private List<Button> _incomeButtons = new();
         public List<Button> IncomeButtons { get { return _incomeButtons; } }
         private List<DropDownButton> _incomeSchedules = new();
-        public List<DropDownButton> IncomeSchedules { get { return _incomeSchedules; } }
 
         // Lists for expense rows
         private static List<NumberBox> _expenseBoxes = new();
