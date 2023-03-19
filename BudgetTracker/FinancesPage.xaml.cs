@@ -72,6 +72,7 @@ namespace BudgetTracker
                         case "Bi-monthly":
                             income += 2 * double.Parse(IncomeBoxes[i].Text);
                             break;
+                        case "Schedule":
                         case "Once":
                         case "Monthly":
                         default:
@@ -82,28 +83,11 @@ namespace BudgetTracker
             }
 
             expenses = 0;
-            _expenseValues.Clear();
-            for (int i = 0; i < ExpenseBoxes.Count; i++)
+            foreach (NumberBox n in ExpenseBoxes)
             {
-                if (!ExpenseBoxes[i].Text.Equals(""))
+                if (!n.Text.Equals(""))
                 {
-                    double expenseVal = 0;
-                    switch (_expenseSchedules[i].Content.ToString())
-                    {
-                        case "Weekly":
-                            expenseVal = 4 * double.Parse(ExpenseBoxes[i].Text);
-                            break;
-                        case "Bi-monthly":
-                            expenseVal = 2 * double.Parse(ExpenseBoxes[i].Text);
-                            break;
-                        case "Once":
-                        case "Monthly":
-                        default:
-                            expenseVal = double.Parse(ExpenseBoxes[i].Text);
-                            break;
-                    }
-                    expenses += expenseVal;
-                    _expenseValues.Add(ExpenseBoxes[i].Header.ToString(), expenseVal);
+                    expenses += double.Parse(n.Text);
                 }
             }
 
