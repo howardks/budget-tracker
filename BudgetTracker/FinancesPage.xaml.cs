@@ -181,10 +181,10 @@ namespace BudgetTracker
             for (int i = 0; i < IncomeBoxes.Count; i++)
             {
                 Grid.SetRow(IncomeBoxes[i], i);
-                Grid.SetRow(IncomeButtons[i], i);
-                Grid.SetColumn(IncomeButtons[i], 2);
                 Grid.SetRow(_incomeSchedules[i], i);
                 Grid.SetColumn(_incomeSchedules[i], 1);
+                Grid.SetRow(IncomeButtons[i], i);
+                Grid.SetColumn(IncomeButtons[i], 2);
             }
         }
 
@@ -257,19 +257,24 @@ namespace BudgetTracker
             int index = _expenseButtons.IndexOf(sender as Button);
             NumberBox removedBox = _expenseBoxes[index];
             Button removedButton = _expenseButtons[index];
+            DropDownButton removedSchedule = _expenseSchedules[index];
             expenseGrid.Children.Remove(removedBox);
             expenseGrid.Children.Remove(removedButton);
+            expenseGrid.Children.Remove(removedSchedule);
             expenseGrid.RowDefinitions.RemoveAt(index);
             _expenseBoxes.RemoveAt(index);
             _expenseButtons.RemoveAt(index);
+            _expenseSchedules.RemoveAt(index);
             expenseGridRows--;
 
             // Reposition incomeGrid elements
             for (int i = 0; i < ExpenseBoxes.Count; i++)
             {
                 Grid.SetRow(ExpenseBoxes[i], i);
+                Grid.SetRow(_expenseSchedules[i], i);
+                Grid.SetColumn(_expenseButtons[i], 1);
                 Grid.SetRow(ExpenseButtons[i], i);
-                Grid.SetColumn(ExpenseButtons[i], 1);
+                Grid.SetColumn(ExpenseButtons[i], 2);
             }
         }
     }
