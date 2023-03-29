@@ -23,6 +23,8 @@ namespace BudgetTracker
         private FinancesPage fPage = MainWindow.fPage;
         private List<PieData> expensePieces = new();
         private List<PieData> incomePieces = new();
+        private GoalsPage gPage = MainWindow.gPage;
+        private List<PieData> goalPieces = new();
 
         public StatisticsPage()
         {
@@ -49,15 +51,55 @@ namespace BudgetTracker
             }
         }
 
+        public void PopulateGoals()
+        {
+            goalPieces.Clear();
+
+            for (int i = 0; i < gPage.GoalExpenses.Count; i++)
+            {
+                goalPieces.Add(new PieData(gPage.GoalHeaders[i].Substring(0, gPage.GoalHeaders[i].Length - 8) + " Needed: ", (gPage.GoalExpenses[i] - gPage.GoalSavings[i]) / gPage.Goal * 100, gPage.GoalExpenses[i]));
+            }
+
+            for (int i = 0; i < gPage.GoalSavings.Count; i++)
+            {
+                goalPieces.Add(new PieData(gPage.SavingsHeaders[i], gPage.GoalSavings[i] / gPage.Goal * 100, gPage.GoalSavings[i]));
+            }
+        }
+
         public void ControlMissingFinancesTitleVisibility()
         {
-            if (fPage.Expenses > 0 || fPage.Income > 0)
+            if (fPage.Expenses > 0 || fPage.Income > 0 || gPage.Goal > 0)
             {
                 missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             } else
             {
                 missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
             }
+        }
+
+        public void GenerateCharts()
+        {
+            GenerateFundsPieChart();
+            GenerateIncomePieChart();
+            GenerateExpensePieChart();
+            GenerateGoalPieChart();
+        }
+
+        public void GenerateGoalPieChart()
+        {
+            if (gPage.Goal > 0)
+            {
+                goalTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                goalPanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+
+                PopulateGoals();
+                GeneratePieChart(goalItemsControl, goalCanvas, goalPieces);
+            } else
+            {
+                goalTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                goalPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            }
+            ControlMissingFinancesTitleVisibility();
         }
 
         public void GenerateIncomePieChart()

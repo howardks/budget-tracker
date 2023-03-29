@@ -74,11 +74,11 @@ namespace BudgetTracker
             newSavingsBox.Margin = new Thickness(5,0,0,0);
             if (goalName.Text.Equals(""))
             {
-                newGoalBox.Header = "Goal: ";
-                newSavingsBox.Header = "Progress: ";
+                newGoalBox.Header = "Goal Total: ";
+                newSavingsBox.Header = "Goal Progress: ";
             } else
             {
-                newGoalBox.Header = goalName.Text.Trim() + " Goal: ";
+                newGoalBox.Header = goalName.Text.Trim() + " Total: ";
                 newSavingsBox.Header = goalName.Text.Trim() + " Progress: ";
                 goalName.Text = "";
             }
@@ -145,17 +145,23 @@ namespace BudgetTracker
 
             for (int i = 0; i < GoalBoxes.Count; i++)
             {
-                goal += double.Parse(GoalBoxes[i].Text);
-                savings += double.Parse(SavingsBoxes[i].Text);
-                _goalHeaders.Add(GoalBoxes[i].Header.ToString());
-                _goalExpenses.Add(double.Parse(GoalBoxes[i].Text));
-                _savingsHeaders.Add(SavingsBoxes[i].Header.ToString());
-                _goalSavings.Add(double.Parse(SavingsBoxes[i].Text));
+                double goalVal = double.Parse(GoalBoxes[i].Text);
+                double savingsVal = double.Parse(SavingsBoxes[i].Text);
+                if (goalVal >= savingsVal)
+                {
+                    goal += goalVal;
+                    savings += savingsVal;
+                    _goalHeaders.Add(GoalBoxes[i].Header.ToString());
+                    _goalExpenses.Add(goalVal);
+                    _savingsHeaders.Add(SavingsBoxes[i].Header.ToString());
+                    _goalSavings.Add(savingsVal);
+                }
             }
 
             totalGoal.Text = String.Format("{0:C2}", goal);
             totalSaved.Text = String.Format("{0:C2}", savings);
             remainingGoal.Text = String.Format("{0:C2}", goal - savings);
+            MainWindow.sPage.GenerateCharts();
         }
     }
 }
