@@ -202,7 +202,7 @@ namespace BudgetTracker
 
         private void RemoveIncomeButton_Click(object sender, RoutedEventArgs e)
         {
-            // Remove specified NumberBox, Button, and RowDefinition
+            // Remove specified NumberBox, Buttons, and RowDefinition
             int index = _incomeButtons.IndexOf(sender as Button);
             NumberBox removedBox = _incomeBoxes[index];
             Button removedButton = _incomeButtons[index];

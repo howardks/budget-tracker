@@ -78,6 +78,7 @@ namespace BudgetTracker
             {
                 newGoalBox.Header = goalName.Text.Trim() + " Goal: ";
                 newSavingsBox.Header = goalName.Text.Trim() + " Progress: ";
+                goalName.Text = "";
             }
             _goalBoxes.Add(newGoalBox);
             _savingsBoxes.Add(newSavingsBox);
@@ -106,7 +107,29 @@ namespace BudgetTracker
 
         private void RemoveGoalButton_Click(object sender, RoutedEventArgs e)
         {
-            
+            // Remove specified NumberBoxes, Button, and RowDefinition
+            int index = _goalButtons.IndexOf(sender as Button);
+            NumberBox removedGoalBox = _goalBoxes[index];
+            NumberBox removedSavingsBox = _savingsBoxes[index];
+            Button removedGoalButton = _goalButtons[index];
+            goalGrid.Children.Remove(removedGoalBox);
+            goalGrid.Children.Remove(removedSavingsBox);
+            goalGrid.Children.Remove(removedGoalButton);
+            goalGrid.RowDefinitions.RemoveAt(index);
+            _goalBoxes.RemoveAt(index);
+            _savingsBoxes.RemoveAt(index);
+            _goalButtons.RemoveAt(index);
+            goalGridRows--;
+
+            // Reposition goalGrid elements;
+            for (int i = 0; i < GoalBoxes.Count; i++)
+            {
+                Grid.SetRow(GoalBoxes[i], i);
+                Grid.SetRow(SavingsBoxes[i], i);
+                Grid.SetColumn(SavingsBoxes[i], 1);
+                Grid.SetRow(GoalButtons[i], i);
+                Grid.SetColumn(GoalButtons[i], 2);
+            }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
