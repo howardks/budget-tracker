@@ -40,6 +40,12 @@ namespace BudgetTracker
         public List<Button> IncomeButtons { get { return _incomeButtons; } }
         private List<DropDownButton> _incomeSchedules = new();
 
+        // Lists of headers and individual incomes for sharing with Statistics page
+        private List<string> _incomeHeaders = new();
+        public List<string> IncomeHeaders { get { return _incomeHeaders; } }
+        private List<double> _incomeValues = new();
+        public List<double> IncomeValues { get { return _incomeValues; } }
+
         // Lists for expense rows
         private List<NumberBox> _expenseBoxes = new();
         public List<NumberBox> ExpenseBoxes { get { return _expenseBoxes; } }
@@ -62,25 +68,31 @@ namespace BudgetTracker
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             income = 0;
+            _incomeHeaders.Clear();
+            _incomeValues.Clear();
             for (int i = 0; i < IncomeBoxes.Count; i++)
             {
+                double incomeVal = 0;
                 if (!IncomeBoxes[i].Text.Equals(""))
                 {
                     switch (_incomeSchedules[i].Content.ToString())
                     {
                         case "Weekly":
-                            income += 4 * double.Parse(IncomeBoxes[i].Text);
+                            incomeVal += 4 * double.Parse(IncomeBoxes[i].Text);
                             break;
                         case "Bi-monthly":
-                            income += 2 * double.Parse(IncomeBoxes[i].Text);
+                            incomeVal += 2 * double.Parse(IncomeBoxes[i].Text);
                             break;
                         case "Schedule":
                         case "Once":
                         case "Monthly":
                         default:
-                            income += double.Parse(IncomeBoxes[i].Text);
+                            incomeVal += double.Parse(IncomeBoxes[i].Text);
                             break;
                     }
+                    income += incomeVal;
+                    _incomeHeaders.Add(IncomeBoxes[i].Header.ToString());
+                    _incomeValues.Add(incomeVal);
                 }
             }
 
@@ -116,6 +128,7 @@ namespace BudgetTracker
             totalIncome.Text = String.Format("{0:C2}", income);
             totalExpenses.Text = String.Format("{0:C2}", expenses);
             remaining.Text = String.Format("{0:C2}", income - expenses);
+            MainWindow.sPage.GenerateIncomePieChart();
             MainWindow.sPage.GenerateExpensePieChart();
             MainWindow.sPage.GenerateFundsPieChart();
         }

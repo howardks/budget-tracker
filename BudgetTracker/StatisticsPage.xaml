@@ -11,6 +11,7 @@
     mc:Ignorable="d">
     
     <StackPanel Orientation="Vertical">
+        <TextBlock x:Name="missingFinancesTitle" Text="Add Income or Expenses in Finances Section to View Statistics" Margin="10" />
         <TextBlock x:Name="fundsTitle" Text="Remaining Funds" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
         <StackPanel x:Name="fundsPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
             <Canvas x:Name="fundsCanvas" Height="400" Width="400"/>
@@ -28,6 +29,24 @@
             </ScrollViewer>
         </StackPanel>
         <Line x:Name="fundsLine" Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" 
+              Visibility="Collapsed"/>
+        <TextBlock x:Name="incomeTitle" Text="Income Distribution" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
+        <StackPanel x:Name="incomePanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
+            <Canvas x:Name="incomeCanvas" Height="400" Width="400"/>
+            <ScrollViewer Margin="20,0" Padding="10" VerticalAlignment="Center" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="incomeItemsControl">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="local:PieData">
+                            <StackPanel Orientation="Horizontal" Margin="10">
+                                <Rectangle Width="16" Height="16" Fill="{x:Bind color}" Margin="0,0,5,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="{x:Bind formattedOutput}" VerticalAlignment="Center" FontFamily="Consolas"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </StackPanel>
+        <Line x:Name="incomeLine" Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" 
               Visibility="Collapsed"/>
         <TextBlock x:Name="expenseTitle" Text="Expense Distribution" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
         <StackPanel x:Name="expensePanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
@@ -47,6 +66,6 @@
         </StackPanel>
         <Line x:Name="expenseLine" Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" 
               Visibility="Collapsed"/>
-        <TextBlock x:Name="goalTitle" Text="Goal Progress" HorizontalAlignment="Center" Margin="10"/>
+        <TextBlock x:Name="goalTitle" Text="Goal Progress" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
     </StackPanel>
 </Page>

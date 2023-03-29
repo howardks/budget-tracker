@@ -22,6 +22,7 @@ namespace BudgetTracker
     {
         private FinancesPage fPage = MainWindow.fPage;
         private List<PieData> expensePieces = new();
+        private List<PieData> incomePieces = new();
 
         public StatisticsPage()
         {
@@ -36,6 +37,47 @@ namespace BudgetTracker
             {
                 expensePieces.Add(new PieData(fPage.ExpenseHeaders[i], fPage.ExpenseValues[i] / fPage.Expenses * 100, fPage.ExpenseValues[i]));
             }
+        }
+
+        public void PopulateIncome()
+        {
+            incomePieces.Clear();
+
+            for (int i = 0; i < fPage.IncomeValues.Count; i++)
+            {
+                incomePieces.Add(new PieData(fPage.IncomeHeaders[i], fPage.IncomeValues[i] / fPage.Income * 100, fPage.IncomeValues[i]));
+            }
+        }
+
+        public void ControlMissingFinancesTitleVisibility()
+        {
+            if (fPage.Expenses > 0 || fPage.Income > 0)
+            {
+                missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            } else
+            {
+                missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            }
+        }
+
+        public void GenerateIncomePieChart()
+        {
+            if (fPage.Income > 0)
+            {
+                incomeTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                incomePanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+                incomeLine.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+
+                PopulateIncome();
+                GeneratePieChart(incomeItemsControl, incomeCanvas, incomePieces);
+            }
+            else
+            {
+                incomeTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                incomePanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+                incomeLine.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            }
+            ControlMissingFinancesTitleVisibility();
         }
 
         public void GenerateExpensePieChart()
@@ -54,6 +96,7 @@ namespace BudgetTracker
                 expensePanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 expenseLine.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             }
+            ControlMissingFinancesTitleVisibility();
         }
 
         public void GenerateFundsPieChart()
@@ -82,6 +125,7 @@ namespace BudgetTracker
                 fundsPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 fundsLine.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
             }
+            ControlMissingFinancesTitleVisibility();
         }
 
         public void GeneratePieChart(ItemsControl itemsControl, Canvas canvas, List<PieData> pieData)
