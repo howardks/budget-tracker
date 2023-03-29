@@ -24,7 +24,6 @@ namespace BudgetTracker
             new() { Label = "Finances", Symbol = Symbol.List, Page = fPage },
             new() { Label = "Goals", Symbol = Symbol.SolidStar, Page = gPage },
             new() { Label = "Statistics", Symbol = Symbol.FourBars, Page = sPage },
-            new() { Label = "Settings", Symbol = Symbol.Setting, Page = new SettingsPage() } // Might not keep settings option
         };
 
         public ObservableCollection<NavLink> NavLinks
