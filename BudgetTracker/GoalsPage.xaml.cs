@@ -48,6 +48,8 @@ namespace BudgetTracker
         public List<string> GoalHeaders { get { return _goalHeaders; } }
         private List<double> _goalExpenses = new();
         public List<double> GoalExpenses { get { return _goalExpenses; } }
+        private List<string> _savingsHeaders = new();
+        public List<string> SavingsHeaders { get { return _savingsHeaders; } }
         private List<double> _goalSavings = new();
         public List<double> GoalSavings { get { return _goalSavings; } }
         public GoalsPage()
@@ -134,7 +136,26 @@ namespace BudgetTracker
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            goal = 0;
+            savings = 0;
+            _goalHeaders.Clear();
+            _goalExpenses.Clear();
+            _savingsHeaders.Clear();
+            _goalSavings.Clear();
 
+            for (int i = 0; i < GoalBoxes.Count; i++)
+            {
+                goal += double.Parse(GoalBoxes[i].Text);
+                savings += double.Parse(SavingsBoxes[i].Text);
+                _goalHeaders.Add(GoalBoxes[i].Header.ToString());
+                _goalExpenses.Add(double.Parse(GoalBoxes[i].Text));
+                _savingsHeaders.Add(SavingsBoxes[i].Header.ToString());
+                _goalSavings.Add(double.Parse(SavingsBoxes[i].Text));
+            }
+
+            totalGoal.Text = String.Format("{0:C2}", goal);
+            totalSaved.Text = String.Format("{0:C2}", savings);
+            remainingGoal.Text = String.Format("{0:C2}", goal - savings);
         }
     }
 }
