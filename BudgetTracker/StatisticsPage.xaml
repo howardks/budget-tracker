@@ -11,7 +11,9 @@
     mc:Ignorable="d">
     
     <StackPanel Orientation="Vertical">
+        <!-- No Data Display -->
         <TextBlock x:Name="missingFinancesTitle" Text="Add Data to Finances Section or Goal Section to View Statistics" Margin="10" />
+        <!-- Remaining / Used Funds Pie Chart -->
         <TextBlock x:Name="fundsTitle" Text="Remaining Funds" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
         <StackPanel x:Name="fundsPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
             <Canvas x:Name="fundsCanvas" Height="400" Width="400"/>
@@ -30,6 +32,7 @@
         </StackPanel>
         <Line x:Name="fundsLine" Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" 
               Visibility="Collapsed"/>
+        <!-- Income Distribution Pie Chart -->
         <TextBlock x:Name="incomeTitle" Text="Income Distribution" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
         <StackPanel x:Name="incomePanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
             <Canvas x:Name="incomeCanvas" Height="400" Width="400"/>
@@ -48,6 +51,7 @@
         </StackPanel>
         <Line x:Name="incomeLine" Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" 
               Visibility="Collapsed"/>
+        <!-- Expense Distribution Pie Chart -->
         <TextBlock x:Name="expenseTitle" Text="Expense Distribution" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
         <StackPanel x:Name="expensePanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
             <Canvas x:Name="expenseCanvas" Height="400" Width="400"/>
@@ -66,6 +70,7 @@
         </StackPanel>
         <Line x:Name="expenseLine" Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" 
               Visibility="Collapsed"/>
+        <!-- Goals Pie Chart -->
         <TextBlock x:Name="goalTitle" Text="Goal Progress" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed"/>
         <StackPanel x:Name="goalPanel" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center" Margin="10" Visibility="Collapsed">
             <Canvas x:Name="goalCanvas" Height="400" Width="400"/>

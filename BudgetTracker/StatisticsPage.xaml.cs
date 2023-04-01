@@ -14,9 +14,12 @@ namespace BudgetTracker
 {
     public sealed partial class StatisticsPage : Page
     {
+        // Variables for pie charts from Finances page
         private FinancesPage fPage = MainWindow.fPage;
         private List<PieData> expensePieces = new();
         private List<PieData> incomePieces = new();
+
+        // Variables for pie charts from Goals page
         private GoalsPage gPage = MainWindow.gPage;
         private List<PieData> goalPieces = new();
 
@@ -25,10 +28,21 @@ namespace BudgetTracker
             this.InitializeComponent();
         }
 
+        public void GenerateCharts()
+        {
+            // Generate all available pie charts
+            GenerateFundsPieChart();
+            GenerateIncomePieChart();
+            GenerateExpensePieChart();
+            GenerateGoalPieChart();
+        }
+
         public void PopulateExpenses()
         {
+            // Clear expense pie chart pieces
             expensePieces.Clear();
 
+            // Populate pie chart pieces for expenses
             for (int i = 0; i < fPage.ExpenseValues.Count; i++)
             {
                 expensePieces.Add(new PieData(fPage.ExpenseHeaders[i], fPage.ExpenseValues[i] / fPage.Expenses * 100, fPage.ExpenseValues[i]));
@@ -37,8 +51,10 @@ namespace BudgetTracker
 
         public void PopulateIncome()
         {
+            // Clear income pie chart pieces
             incomePieces.Clear();
 
+            // Populate pie chart pieces for income
             for (int i = 0; i < fPage.IncomeValues.Count; i++)
             {
                 incomePieces.Add(new PieData(fPage.IncomeHeaders[i], fPage.IncomeValues[i] / fPage.Income * 100, fPage.IncomeValues[i]));
@@ -47,40 +63,25 @@ namespace BudgetTracker
 
         public void PopulateGoals()
         {
+            // Clear goal pie chart pieces
             goalPieces.Clear();
 
+            // Populate pie chart pieces for goal expenses
             for (int i = 0; i < gPage.GoalExpenses.Count; i++)
             {
                 goalPieces.Add(new PieData(gPage.GoalHeaders[i].Substring(0, gPage.GoalHeaders[i].Length - 8) + " Needed: ", (gPage.GoalExpenses[i] - gPage.GoalSavings[i]) / gPage.Goal * 100, gPage.GoalExpenses[i]));
             }
 
+            // Populate pie chart pieces for goal savings
             for (int i = 0; i < gPage.GoalSavings.Count; i++)
             {
                 goalPieces.Add(new PieData(gPage.SavingsHeaders[i], gPage.GoalSavings[i] / gPage.Goal * 100, gPage.GoalSavings[i]));
             }
         }
 
-        public void ControlMissingFinancesTitleVisibility()
-        {
-            if (fPage.Expenses > 0 || fPage.Income > 0 || gPage.Goal > 0)
-            {
-                missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
-            } else
-            {
-                missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
-            }
-        }
-
-        public void GenerateCharts()
-        {
-            GenerateFundsPieChart();
-            GenerateIncomePieChart();
-            GenerateExpensePieChart();
-            GenerateGoalPieChart();
-        }
-
         public void GenerateGoalPieChart()
         {
+            // Adjust appropriate visibilities, populate goals pie data, and generate goals pie chart if Goals page has data
             if (gPage.Goal > 0)
             {
                 goalTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -88,7 +89,8 @@ namespace BudgetTracker
 
                 PopulateGoals();
                 GeneratePieChart(goalItemsControl, goalCanvas, goalPieces);
-            } else
+            } 
+            else
             {
                 goalTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 goalPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
@@ -98,6 +100,7 @@ namespace BudgetTracker
 
         public void GenerateIncomePieChart()
         {
+            // Adjust appropriate visibilities, populate income pie data, and generate income pie chart if Finances page has income data
             if (fPage.Income > 0)
             {
                 incomeTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -118,6 +121,7 @@ namespace BudgetTracker
 
         public void GenerateExpensePieChart()
         {
+            // Adjust appropriate visibilities, populate expense pie data, and generate expense pie chart if Finances page has expense data
             if (fPage.Expenses > 0)
             {
                 expenseTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
@@ -137,12 +141,14 @@ namespace BudgetTracker
 
         public void GenerateFundsPieChart()
         {
+            // Adjust appropriate visibilities, populate funds pie data, and generate funds pie chart if Finances page has income and expense data
             if (fPage.Expenses > 0 && fPage.Income > 0)
             {
                 fundsTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 fundsPanel.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
                 fundsLine.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
 
+                // Funds data is total income and total expenses
                 List<PieData> fundsData = new();
                 double expensePercent = 100, remainingPercent = 0;
 
@@ -155,7 +161,8 @@ namespace BudgetTracker
                 fundsData.Add(new("Remaining Funds:", remainingPercent, fPage.Income - fPage.Expenses, new SolidColorBrush(Color.FromArgb(255, 0, 0, 255))));
 
                 GeneratePieChart(fundsItemsControl, fundsCanvas, fundsData);
-            } else
+            } 
+            else
             {
                 fundsTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
                 fundsPanel.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
@@ -166,6 +173,7 @@ namespace BudgetTracker
 
         public void GeneratePieChart(ItemsControl itemsControl, Canvas canvas, List<PieData> pieData)
         {
+            // Reset canvas and items control
             canvas.Children.Clear();
             itemsControl.ItemsSource = null;
             itemsControl.ItemsSource = pieData;
@@ -174,10 +182,11 @@ namespace BudgetTracker
 
             if (pieData.Count > 1 && pieData[0].Percentage < 100 && pieData[1].Percentage < 100)
             {
-                // Draw pie chart
+                // Create each pie piece and add it to canvas
                 double angle = 0, prevAngle = 0;
                 foreach (PieData piece in pieData)
                 {
+                    // Draw pie piece
                     double line1X = (radius * Math.Cos(angle * Math.PI / 180)) + centerX;
                     double line1Y = (radius * Math.Sin(angle * Math.PI / 180)) + centerY;
 
@@ -225,10 +234,10 @@ namespace BudgetTracker
                     };
                     canvas.Children.Add(path);
 
+                    // Update prevAngle for next pie piece
                     prevAngle = angle;
 
-
-                    // draw outlines
+                    // Draw outlines around pie piece
                     Brush outlineBrush = Resources["SystemControlBackgroundChromeMediumLowBrush"] as Brush;
                     var outline1 = new Line()
                     {
@@ -252,8 +261,10 @@ namespace BudgetTracker
                     canvas.Children.Add(outline1);
                     canvas.Children.Add(outline2);
                 }
-            } else
+            } 
+            else
             {
+                // When there is only one pie piece, display a full circle
                 foreach (PieData piece in pieData)
                 {
                     if (piece.Percentage == 100)
@@ -268,10 +279,22 @@ namespace BudgetTracker
                 }
             }
         }
+
+        public void ControlMissingFinancesTitleVisibility()
+        {
+            // Display missingFinancesTitle only when there are no pie charts to display
+            if (fPage.Expenses > 0 || fPage.Income > 0 || gPage.Goal > 0)
+            {
+                missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Collapsed;
+            } 
+            else
+            {
+                missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
+            }
+        }
     }
 
-
-
+    // Class for pie pieces and populating ItemsControl.ItemsTemplate
     public class PieData
     {
         private String name;
@@ -283,11 +306,12 @@ namespace BudgetTracker
         private double amount;
         public double Amount { get { return amount; } set { amount = value; } }
 
-        public SolidColorBrush color; // Make private later
+        public SolidColorBrush color; 
         public string formattedOutput;
 
         public PieData(string name, double percentage, double amount)
         {
+            // Constructor that provides random color if no color is specified
             Name = name;
             Percentage = percentage;
             Amount = amount;
@@ -297,6 +321,7 @@ namespace BudgetTracker
 
         public PieData(string name, double percentage, double amount, SolidColorBrush color)
         {
+            // Constructor with specified color
             Name = name;
             Percentage = percentage;
             Amount = amount;
@@ -304,8 +329,9 @@ namespace BudgetTracker
             formattedOutput = String.Format("{0,-22} {1:P2}   {2:C2}", Name, Percentage/100, Amount);
         }
 
-        private void GenerateRandomColor() // Random colors look terrible, maybe allow user to select colors
+        private void GenerateRandomColor() 
         {
+            // Random color generator
             Random rnd = new Random();
             color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
         }
