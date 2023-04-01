@@ -142,16 +142,24 @@ namespace BudgetTracker
             // Calculate total goal and total savings, populate headers and values lists
             for (int i = 0; i < GoalBoxes.Count; i++)
             {
-                double goalVal = double.Parse(GoalBoxes[i].Text);
-                double savingsVal = double.Parse(SavingsBoxes[i].Text);
-                if (goalVal >= savingsVal)
+                if (!GoalBoxes[i].Text.Equals(""))
                 {
-                    goal += goalVal;
-                    savings += savingsVal;
-                    _goalHeaders.Add(GoalBoxes[i].Header.ToString());
-                    _goalExpenses.Add(goalVal);
-                    _savingsHeaders.Add(SavingsBoxes[i].Header.ToString());
-                    _goalSavings.Add(savingsVal);
+                    double goalVal = double.Parse(GoalBoxes[i].Text);
+                    double savingsVal = 0;
+                    if (!SavingsBoxes[i].Text.Equals(""))
+                    {
+                        savingsVal = double.Parse(SavingsBoxes[i].Text);
+                    }
+                    
+                    if (goalVal >= savingsVal)
+                    {
+                        goal += goalVal;
+                        savings += savingsVal;
+                        _goalHeaders.Add(GoalBoxes[i].Header.ToString());
+                        _goalExpenses.Add(goalVal);
+                        _savingsHeaders.Add(SavingsBoxes[i].Header.ToString());
+                        _goalSavings.Add(savingsVal);
+                    }
                 }
             }
 

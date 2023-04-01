@@ -4,12 +4,11 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Drawing;
+using Microsoft.UI;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
-using Windows.Security.Cryptography.Core;
 using Windows.UI;
 
 namespace BudgetTracker
@@ -25,18 +24,9 @@ namespace BudgetTracker
         private GoalsPage gPage = MainWindow.gPage;
         private List<PieData> goalPieces = new();
 
-        // List of colors
-        private List<System.Drawing.Color> colorList = new();
-
         public StatisticsPage()
         {
             this.InitializeComponent();
-
-            // Populate colorList
-            foreach (System.Drawing.Color c in new ColorConverter().GetStandardValues())
-            {
-                colorList.Add(c);
-            }
         }
 
         public void GenerateCharts()
@@ -56,7 +46,14 @@ namespace BudgetTracker
             // Populate pie chart pieces for expenses
             for (int i = 0; i < fPage.ExpenseValues.Count; i++)
             {
-                expensePieces.Add(new PieData(fPage.ExpenseHeaders[i], fPage.ExpenseValues[i] / fPage.Expenses * 100, fPage.ExpenseValues[i]));
+                if (i < 24)
+                {
+                    expensePieces.Add(new PieData(fPage.ExpenseHeaders[i], fPage.ExpenseValues[i] / fPage.Expenses * 100, fPage.ExpenseValues[i], i));
+                }
+                else
+                {
+                    expensePieces.Add(new PieData(fPage.ExpenseHeaders[i], fPage.ExpenseValues[i] / fPage.Expenses * 100, fPage.ExpenseValues[i]));
+                }
             }
         }
 
@@ -68,7 +65,14 @@ namespace BudgetTracker
             // Populate pie chart pieces for income
             for (int i = 0; i < fPage.IncomeValues.Count; i++)
             {
-                incomePieces.Add(new PieData(fPage.IncomeHeaders[i], fPage.IncomeValues[i] / fPage.Income * 100, fPage.IncomeValues[i]));
+                if (i < 24)
+                {
+                    incomePieces.Add(new PieData(fPage.IncomeHeaders[i], fPage.IncomeValues[i] / fPage.Income * 100, fPage.IncomeValues[i], i));
+                } 
+                else
+                {
+                    incomePieces.Add(new PieData(fPage.IncomeHeaders[i], fPage.IncomeValues[i] / fPage.Income * 100, fPage.IncomeValues[i]));
+                }
             }
         }
 
@@ -80,13 +84,27 @@ namespace BudgetTracker
             // Populate pie chart pieces for goal expenses
             for (int i = 0; i < gPage.GoalExpenses.Count; i++)
             {
-                goalPieces.Add(new PieData(gPage.GoalHeaders[i].Substring(0, gPage.GoalHeaders[i].Length - 8) + " Needed: ", (gPage.GoalExpenses[i] - gPage.GoalSavings[i]) / gPage.Goal * 100, gPage.GoalExpenses[i]));
+                if (i < 12)
+                {
+                    goalPieces.Add(new PieData(gPage.GoalHeaders[i][..^8] + " Needed: ", (gPage.GoalExpenses[i] - gPage.GoalSavings[i]) / gPage.Goal * 100, gPage.GoalExpenses[i] - gPage.GoalSavings[i], i));
+                }
+                else
+                {
+                    goalPieces.Add(new PieData(gPage.GoalHeaders[i][..^8] + " Needed: ", (gPage.GoalExpenses[i] - gPage.GoalSavings[i]) / gPage.Goal * 100, gPage.GoalExpenses[i] - gPage.GoalSavings[i]));
+                }
             }
 
             // Populate pie chart pieces for goal savings
             for (int i = 0; i < gPage.GoalSavings.Count; i++)
             {
-                goalPieces.Add(new PieData(gPage.SavingsHeaders[i], gPage.GoalSavings[i] / gPage.Goal * 100, gPage.GoalSavings[i]));
+                if (i < 12)
+                {
+                    goalPieces.Add(new PieData(gPage.SavingsHeaders[i], gPage.GoalSavings[i] / gPage.Goal * 100, gPage.GoalSavings[i], 12 + i));
+                }
+                else
+                {
+                    goalPieces.Add(new PieData(gPage.SavingsHeaders[i], gPage.GoalSavings[i] / gPage.Goal * 100, gPage.GoalSavings[i]));
+                }
             }
         }
 
@@ -280,10 +298,12 @@ namespace BudgetTracker
                 {
                     if (piece.Percentage == 100)
                     {
-                        Ellipse circle = new Ellipse();
-                        circle.Width = pieWidth;
-                        circle.Height = pieHeight;
-                        circle.Fill = piece.color;
+                        Ellipse circle = new()
+                        {
+                            Width = pieWidth,
+                            Height = pieHeight,
+                            Fill = piece.color
+                        };
 
                         canvas.Children.Add(circle);
                     }
@@ -303,7 +323,6 @@ namespace BudgetTracker
                 missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
             }
         }
-
     }
 
     // Class for pie pieces and populating ItemsControl.ItemsTemplate
@@ -321,9 +340,40 @@ namespace BudgetTracker
         public SolidColorBrush color; 
         public string formattedOutput;
 
+        // Lists of colors
+        private static List<SolidColorBrush> colorList = new()
+        {
+            // Light Colors begin at index 0
+            new SolidColorBrush(Color.FromArgb(255, 102, 255, 255)),
+            new SolidColorBrush(Color.FromArgb(255, 102, 102, 255)),
+            new SolidColorBrush(Color.FromArgb(255, 255, 102, 255)),
+            new SolidColorBrush(Color.FromArgb(255, 255, 102, 102)),
+            new SolidColorBrush(Color.FromArgb(255, 255, 255, 102)),
+            new SolidColorBrush(Color.FromArgb(255, 102, 255, 102)),
+            new SolidColorBrush(Color.FromArgb(255, 102, 178, 255)),
+            new SolidColorBrush(Color.FromArgb(255, 178, 102, 255)),
+            new SolidColorBrush(Color.FromArgb(255, 255, 102, 178)),
+            new SolidColorBrush(Color.FromArgb(255, 255, 178, 102)),
+            new SolidColorBrush(Color.FromArgb(255, 178, 255, 102)),
+            new SolidColorBrush(Color.FromArgb(255, 102, 255, 178)),
+            // Dark Colors begin at index 12
+            new SolidColorBrush(Color.FromArgb(255, 0, 153, 153)),
+            new SolidColorBrush(Color.FromArgb(255, 0, 0, 153)),
+            new SolidColorBrush(Color.FromArgb(255, 153, 0, 153)),
+            new SolidColorBrush(Color.FromArgb(255, 153, 0, 0)),
+            new SolidColorBrush(Color.FromArgb(255, 153, 153, 0)),
+            new SolidColorBrush(Color.FromArgb(255, 0, 153, 0)),
+            new SolidColorBrush(Color.FromArgb(255, 0, 76, 153)),
+            new SolidColorBrush(Color.FromArgb(255, 76, 0, 153)),
+            new SolidColorBrush(Color.FromArgb(255, 153, 0, 76)),
+            new SolidColorBrush(Color.FromArgb(255, 153, 76, 0)),
+            new SolidColorBrush(Color.FromArgb(255, 76, 153, 0)),
+            new SolidColorBrush(Color.FromArgb(255, 0, 153, 76))
+        };
+
+        // Constructor that provides random color if no color or index is specified
         public PieData(string name, double percentage, double amount)
         {
-            // Constructor that provides random color if no color is specified
             Name = name;
             Percentage = percentage;
             Amount = amount;
@@ -331,9 +381,9 @@ namespace BudgetTracker
             formattedOutput = String.Format("{0,-22} {1:P2}   {2:C2}", Name, Percentage/100, Amount);
         }
 
+        // Constructor with specified color
         public PieData(string name, double percentage, double amount, SolidColorBrush color)
         {
-            // Constructor with specified color
             Name = name;
             Percentage = percentage;
             Amount = amount;
@@ -341,11 +391,22 @@ namespace BudgetTracker
             formattedOutput = String.Format("{0,-22} {1:P2}   {2:C2}", Name, Percentage/100, Amount);
         }
 
+        // Constructor with color based on index
+        public PieData(string name, double percentage, double amount, int index)
+        {
+            Name = name; 
+            Percentage = percentage;
+            Amount = amount;
+            this.color = colorList[index];
+            formattedOutput = String.Format("{0,-22} {1:P2}   {2:C2}", Name, Percentage / 100, Amount);
+        }
+
         private void GenerateRandomColor() 
         {
             // Random color generator
-            Random rnd = new Random();
+            Random rnd = new();
             color = new SolidColorBrush(Color.FromArgb(255, (byte)rnd.Next(256), (byte)rnd.Next(256), (byte)rnd.Next(256)));
         }
+
     }
 }
