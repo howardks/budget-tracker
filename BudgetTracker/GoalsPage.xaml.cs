@@ -29,7 +29,7 @@ namespace BudgetTracker
         private static double savings = 0;
         public double Savings { get { return savings; } }
 
-        // Lists for grid rows
+        // Lists for grid row nodes
         private List<NumberBox> _goalBoxes = new();
         public List<NumberBox> GoalBoxes { get { return _goalBoxes; } }
         private List<NumberBox> _savingsBoxes = new();
@@ -46,6 +46,7 @@ namespace BudgetTracker
         public List<string> SavingsHeaders { get { return _savingsHeaders; } }
         private List<double> _goalSavings = new();
         public List<double> GoalSavings { get { return _goalSavings; } }
+
         public GoalsPage()
         {
             this.InitializeComponent();
@@ -53,12 +54,12 @@ namespace BudgetTracker
 
         private void addGoalButton_Click(object sender, RoutedEventArgs e)
         {
-            // Add a new row definition to gaolGrid
+            // Add a new row definition to goalGrid
             RowDefinition newRow = new();
             newRow.Height = GridLength.Auto;
             goalGrid.RowDefinitions.Add(newRow);
 
-            // Create NumberBoxes with custom Headers
+            // Create new NumberBoxes with custom Headers
             goalGridRows++;
             NumberBox newGoalBox = new();
             newGoalBox.PlaceholderText = "0.00";
@@ -90,7 +91,7 @@ namespace BudgetTracker
             removeGoalButton.Click += RemoveGoalButton_Click;
             _goalButtons.Add(removeGoalButton);
 
-            // Add boxes and button to grid
+            // Add newGoalBox, newSavingsBox and removeGoalButton to grid
             goalGrid.Children.Add(newGoalBox);
             Grid.SetRow(newGoalBox, goalGridRows);
             goalGrid.Children.Add(newSavingsBox);
@@ -117,7 +118,7 @@ namespace BudgetTracker
             _goalButtons.RemoveAt(index);
             goalGridRows--;
 
-            // Reposition goalGrid elements;
+            // Reposition goalGrid elements
             for (int i = 0; i < GoalBoxes.Count; i++)
             {
                 Grid.SetRow(GoalBoxes[i], i);
@@ -128,8 +129,9 @@ namespace BudgetTracker
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void GoalButton_Click(object sender, RoutedEventArgs e)
         {
+            // Reset goal, savings, headers, goalExpenses and goalSavings
             goal = 0;
             savings = 0;
             _goalHeaders.Clear();
@@ -137,6 +139,7 @@ namespace BudgetTracker
             _savingsHeaders.Clear();
             _goalSavings.Clear();
 
+            // Calculate total goal and total savings, populate headers and values lists
             for (int i = 0; i < GoalBoxes.Count; i++)
             {
                 double goalVal = double.Parse(GoalBoxes[i].Text);
@@ -152,9 +155,12 @@ namespace BudgetTracker
                 }
             }
 
+            // Output goal, savings, and remaining goal
             totalGoal.Text = String.Format("{0:C2}", goal);
             totalSaved.Text = String.Format("{0:C2}", savings);
             remainingGoal.Text = String.Format("{0:C2}", goal - savings);
+
+            // Generate pie charts on Statistics page
             MainWindow.sPage.GenerateCharts();
         }
     }

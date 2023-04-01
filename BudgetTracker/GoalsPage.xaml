@@ -31,8 +31,9 @@
             </Grid.ColumnDefinitions>
         </Grid>
         <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
-        <Button Content="Submit" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderThickness="2" HorizontalAlignment="Center" Click="Button_Click"/>
+        <Button Content="Submit" BorderBrush="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" BorderThickness="2" HorizontalAlignment="Center" Click="GoalButton_Click"/>
         <Line Stroke="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}" Margin="4" StrokeThickness="6" X1="0" Y1="0" X2="9999" Y2="0" />
+        <!-- Output -->
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
