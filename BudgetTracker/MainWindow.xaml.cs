@@ -9,24 +9,23 @@ namespace BudgetTracker
 {
     public sealed partial class MainWindow : Window
     {
+        // Pages for populating Main Panel
         public static FinancesPage fPage = new FinancesPage();
         public static GoalsPage gPage = new GoalsPage();
         public static StatisticsPage sPage = new StatisticsPage();
 
+        // Collection for populating Side Panel
         private ObservableCollection<NavLink> _navLinks = new()
         {
             new() { Label = "Finances", Symbol = Symbol.List, Page = fPage },
             new() { Label = "Goals", Symbol = Symbol.SolidStar, Page = gPage },
             new() { Label = "Statistics", Symbol = Symbol.FourBars, Page = sPage },
         };
-
-        public ObservableCollection<NavLink> NavLinks
-        {
-            get { return _navLinks; }
-        }
+        public ObservableCollection<NavLink> NavLinks { get { return _navLinks; } }
 
         private void NavLinksList_ItemClick(object sender, ItemClickEventArgs e)
         {
+            // Populate main panel based on side panel item clicked
             pageHeader.Text = (e.ClickedItem as NavLink).Label.ToUpper();
             pageContent.Content = (e.ClickedItem as NavLink).Page;
         }
@@ -34,12 +33,15 @@ namespace BudgetTracker
         public MainWindow()
         {
             this.InitializeComponent();
+
+            // Show first page on application opening
             NavLinksList.SelectedItem = NavLinks[0];
             pageHeader.Text = NavLinks[0].Label.ToUpper();
             pageContent.Content = NavLinks[0].Page;
         }
     }
 
+    // Nested class which allows navigation links to display properly using ListView.ItemTemplate
     public class NavLink
     {
         public string Label { get; set; }

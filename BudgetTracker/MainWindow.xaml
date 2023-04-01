@@ -11,12 +11,12 @@
     mc:Ignorable="d">
 
     <SplitView IsPaneOpen="True" OpenPaneLength="250" DisplayMode="Inline" PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}">
+        <!-- Side Panel -->
         <SplitView.Pane>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
-                    <RowDefinition Height="Auto"/> <!-- Do not need this row at the moment -->
                 </Grid.RowDefinitions>
                 <TextBlock Text="NAVIGATION" HorizontalAlignment="Center" Margin="0,20"/>
                 <ListView x:Name="NavLinksList" ItemsSource="{x:Bind NavLinks}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" 
@@ -32,6 +32,7 @@
                 </ListView>
             </Grid>
         </SplitView.Pane>
+        <!-- Main Panel -->
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
