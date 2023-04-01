@@ -12,7 +12,7 @@ namespace BudgetTracker
 {
     public sealed partial class FinancesPage : Page
     {
-        // Variables for tracking the newest grid row location
+        // Variables for tracking the newest grid row locations
         private int incomeGridRows = -1, expenseGridRows = -1;
 
         // Variables for tracking expenses and income
@@ -27,7 +27,7 @@ namespace BudgetTracker
             "Once", "Weekly", "Bi-monthly", "Monthly"
         };
 
-        // Lists for income rows
+        // Lists for income row nodes
         private List<NumberBox> _incomeBoxes = new();
         public List<NumberBox> IncomeBoxes { get { return _incomeBoxes; } }
         private List<Button> _incomeButtons = new();
@@ -40,7 +40,7 @@ namespace BudgetTracker
         private List<double> _incomeValues = new();
         public List<double> IncomeValues { get { return _incomeValues; } }
 
-        // Lists for expense rows
+        // Lists for expense row nodes
         private List<NumberBox> _expenseBoxes = new();
         public List<NumberBox> ExpenseBoxes { get { return _expenseBoxes; } }
 
@@ -59,11 +59,14 @@ namespace BudgetTracker
             this.InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void SubmitButton_Click(object sender, RoutedEventArgs e)
         {
+            // Reset income, income headers, and income values
             income = 0;
             _incomeHeaders.Clear();
             _incomeValues.Clear();
+
+            // Calculate total income, populate income headers and income values lists
             for (int i = 0; i < IncomeBoxes.Count; i++)
             {
                 double incomeVal = 0;
@@ -90,9 +93,12 @@ namespace BudgetTracker
                 }
             }
 
+            // Reset expenses, expense headers, and expense values
             expenses = 0;
             _expenseHeaders.Clear();
             _expenseValues.Clear();
+
+            // Calculate total expenses, populate expense headers and expense values
             for (int i = 0; i < ExpenseBoxes.Count; i++)
             {
                 double expenseVal = 0;
@@ -119,9 +125,12 @@ namespace BudgetTracker
                 }
             }
 
+            // Output income, expenses, and remaining funds
             totalIncome.Text = String.Format("{0:C2}", income);
             totalExpenses.Text = String.Format("{0:C2}", expenses);
             remaining.Text = String.Format("{0:C2}", income - expenses);
+
+            // Generate pie charts on Statistics page
             MainWindow.sPage.GenerateCharts();
         }
 
@@ -171,7 +180,7 @@ namespace BudgetTracker
             removeButton.Click += RemoveIncomeButton_Click;
             _incomeButtons.Add(removeButton);
 
-            // Add newBox and removeButton to incomeGrid
+            // Add newBox, scheduleButton and removeButton to incomeGrid
             incomeGrid.Children.Add(newBox);
             Grid.SetRow(newBox, incomeGridRows);
             incomeGrid.Children.Add(scheduleButton);
@@ -181,6 +190,7 @@ namespace BudgetTracker
             Grid.SetRow(removeButton, incomeGridRows);
             Grid.SetColumn(removeButton, 2);
             
+            // Add method for changing DropDownButton display to ListView in DropDownButton
             lv.SelectionChanged += (o, args) =>
                 {
                     Lv_SelectionChanged(lv, scheduleButton);
@@ -189,12 +199,13 @@ namespace BudgetTracker
 
         private void Lv_SelectionChanged(ListView sender, Button ddb)
         {
+            // Change ddb display to show selected ListView item
             ddb.Content = sender.SelectedItem.ToString();
         }
 
         private void RemoveIncomeButton_Click(object sender, RoutedEventArgs e)
         {
-            // Remove specified NumberBox, Buttons, and RowDefinition
+            // Remove specified NumberBox, Button, DropDownButton, and RowDefinition
             int index = _incomeButtons.IndexOf(sender as Button);
             NumberBox removedBox = _incomeBoxes[index];
             Button removedButton = _incomeButtons[index];
@@ -266,7 +277,7 @@ namespace BudgetTracker
             removeButton.Click += RemoveExpenseButton_Click;
             _expenseButtons.Add(removeButton);
 
-            // Add newBox and removeButton to incomeGrid
+            // Add newBox, scheduleButton and removeButton to incomeGrid
             expenseGrid.Children.Add(newBox);
             Grid.SetRow(newBox, expenseGridRows);
             expenseGrid.Children.Add(scheduleButton);
@@ -276,6 +287,7 @@ namespace BudgetTracker
             Grid.SetRow(removeButton, expenseGridRows);
             Grid.SetColumn(removeButton, 2);
 
+            // Add method for changing DropDownButton display to ListView in DropDownButton
             lv.SelectionChanged += (o, args) =>
             {
                 Lv_SelectionChanged(lv, scheduleButton);
@@ -284,7 +296,7 @@ namespace BudgetTracker
 
         private void RemoveExpenseButton_Click(object sender, RoutedEventArgs e)
         {
-            // Remove specified NumberBox, Button, and RowDefinition
+            // Remove specified NumberBox, Button, DropDownButton, and RowDefinition
             int index = _expenseButtons.IndexOf(sender as Button);
             NumberBox removedBox = _expenseBoxes[index];
             Button removedButton = _expenseButtons[index];
