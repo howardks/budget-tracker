@@ -10,9 +10,9 @@ namespace BudgetTracker
     public sealed partial class MainWindow : Window
     {
         // Pages for populating Main Panel
-        public static FinancesPage fPage = new FinancesPage();
-        public static GoalsPage gPage = new GoalsPage();
-        public static StatisticsPage sPage = new StatisticsPage();
+        public static FinancesPage fPage = new();
+        public static GoalsPage gPage = new();
+        public static StatisticsPage sPage = new();
 
         // Collection for populating Side Panel
         private ObservableCollection<NavLink> _navLinks = new()

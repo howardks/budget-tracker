@@ -4,10 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Shapes;
 using Windows.Foundation;
+using Windows.Security.Cryptography.Core;
 using Windows.UI;
 
 namespace BudgetTracker
@@ -23,9 +25,18 @@ namespace BudgetTracker
         private GoalsPage gPage = MainWindow.gPage;
         private List<PieData> goalPieces = new();
 
+        // List of colors
+        private List<System.Drawing.Color> colorList = new();
+
         public StatisticsPage()
         {
             this.InitializeComponent();
+
+            // Populate colorList
+            foreach (System.Drawing.Color c in new ColorConverter().GetStandardValues())
+            {
+                colorList.Add(c);
+            }
         }
 
         public void GenerateCharts()
@@ -292,6 +303,7 @@ namespace BudgetTracker
                 missingFinancesTitle.Visibility = Microsoft.UI.Xaml.Visibility.Visible;
             }
         }
+
     }
 
     // Class for pie pieces and populating ItemsControl.ItemsTemplate
